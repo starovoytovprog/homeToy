@@ -1,0 +1,8 @@
+ext {
+	jUnitVersion = '5.5.2' // https://junit.org/junit5/
+	checkerVersion = '3.0.1' // https://checkerframework.org/
+	jacocoVersion = '0.8.5' // https://github.com/jacoco/jacoco/releases
+	pmdVersion = '6.20.0' // https://pmd.github.io/
+	spotBugsVersion = '3.1.12' // https://github.com/spotbugs/spotbugs/issues/616
+	checkStyleVersion = '8.27' // https://github.com/checkstyle/checkstyle/releases/
+}

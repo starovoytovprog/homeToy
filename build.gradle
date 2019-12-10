@@ -5,4 +5,104 @@
  * Learn how to create Gradle builds at https://guides.gradle.org/creating-new-gradle-builds
  */
 apply plugin: 'idea'
-apply plugin: 'java'
+apply from: 'version.gradle'
+apply from: 'libVersion.gradle'
+buildscript {
+	repositories {
+		maven {
+			url 'https://plugins.gradle.org/m2/'
+		}
+	}
+	dependencies {
+		classpath 'com.github.spotbugs:spotbugs-gradle-plugin:3.0.0'
+	}
+}
+subprojects() {
+	apply plugin: 'java'
+	apply plugin: 'jacoco'
+	apply plugin: 'pmd'
+	apply plugin: 'checkstyle'
+	apply plugin: "com.github.spotbugs"
+	group 'ru.starovoytov.home.toy'
+	compileJava.options.encoding = 'UTF-8'
+	compileTestJava.options.encoding = 'UTF-8'
+	version revision.shortV
+	javadoc {
+		options.encoding = 'UTF-8'
+		options.author = true
+		options.addStringOption("charset", "UTF-8")
+		classpath += sourceSets.test.compileClasspath
+		source += sourceSets.test.allJava
+	}
+	jacoco {
+		toolVersion = jacocoVersion
+	}
+	pmd {
+		ignoreFailures = false
+		toolVersion = pmdVersion
+		rulePriority = 5
+		ruleSets = ['category/java/errorprone.xml',
+					'category/java/multithreading.xml',
+					'category/java/bestpractices.xml',
+					'category/java/codestyle.xml',
+					'category/java/performance.xml',
+					'category/java/design.xml'
+		]
+	}
+	tasks.withType(Checkstyle) {
+		reports {
+			xml.enabled true
+			html.enabled true
+		}
+	}
+	checkstyle {
+		toolVersion = checkStyleVersion
+		ignoreFailures = false
+		configFile = file("${project.rootDir}/codesyle_checks.xml")
+	}
+	tasks.withType(com.github.spotbugs.SpotBugsTask) {
+		reports {
+			xml.enabled true
+			html.enabled false
+		}
+	}
+	spotbugs {
+		toolVersion = spotBugsVersion
+		ignoreFailures = false
+		effort = "max"
+		reportLevel = "low"
+	}
+	test {
+		useJUnitPlatform()
+		testLogging {
+			events "failed"
+		}
+	}
+	tasks.withType(JavaCompile) {
+		sourceCompatibility = JavaVersion.VERSION_1_8
+		targetCompatibility = JavaVersion.VERSION_1_8
+	}
+	repositories {
+		maven {
+			url 'http://repo1.maven.org/maven2'
+		}
+		maven {
+			url 'https://plugins.gradle.org/m2/'
+		}
+	}
+	dependencies {
+		annotationProcessor 'org.checkerframework:checker:' + checkerVersion
+		testAnnotationProcessor 'org.checkerframework:checker:' + checkerVersion
+		testCompile 'org.junit.jupiter:junit-jupiter-api:' + jUnitVersion
+		testCompile 'org.junit.jupiter:junit-jupiter-params:' + jUnitVersion
+		testRuntime 'org.junit.jupiter:junit-jupiter-engine:' + jUnitVersion
+	}
+	task fullRebuild() {
+		group = "build"
+		dependsOn(clean)
+		dependsOn(test)
+		dependsOn(jar)
+		dependsOn(javadoc)
+		dependsOn(buildDependents)
+	}
+}
