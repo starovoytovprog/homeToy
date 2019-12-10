@@ -1,5 +1,7 @@
 package ru.starovoytov.home.toy.common.libs.generators;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 /**
  * Хэлпер для генерации идентификаторов операций
  *
@@ -7,9 +9,23 @@ package ru.starovoytov.home.toy.common.libs.generators;
  * @since 2019.12.10
  */
 public final class UidGeneratorHelper {
-	private UidGeneratorHelper() {}
 
+	private static final AtomicLong TIME_MARKER = new AtomicLong(System.currentTimeMillis());
+
+	/**
+	 * Закрытый конструктор без параметров
+	 */
+	private UidGeneratorHelper() {
+	}
+
+	/**
+	 * Сгенерировать идентификатор операции
+	 *
+	 * @return идентификатор операции
+	 */
 	public static String getNewUid() {
-		return "";
+		long rand = (long) (Math.random() * 1_000_000_000);
+		rand *= TIME_MARKER.incrementAndGet() + System.currentTimeMillis();
+		return Long.toString(rand);
 	}
 }

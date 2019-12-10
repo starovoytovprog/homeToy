@@ -5,7 +5,7 @@
 
 <!--
     Checkstyle configuration that checks the Google coding conventions from Google Java Style
-    that can be found at https://google.github.io/styleguide/javaguide.html
+    that can be found at https://google.github.io/styleguide/javaguide.html.
     Checkstyle is very configurable. Be sure to read the documentation at
     http://checkstyle.sf.net (or in your downloaded distribution).
     To completely disable a check, just comment it out or delete it from the file.
@@ -15,24 +15,13 @@
 <module name="Checker">
 	<property name="charset" value="UTF-8"/>
 
-	<property name="severity" value="warning"/>
+	<property name="severity" value="error"/>
 
 	<property name="fileExtensions" value="java, properties, xml"/>
 	<!-- Excludes all 'module-info.java' files              -->
 	<!-- See https://checkstyle.org/config_filefilters.html -->
 	<module name="BeforeExecutionExclusionFileFilter">
 		<property name="fileNamePattern" value="module\-info\.java$"/>
-	</module>
-	<!-- Checks for whitespace                               -->
-	<!-- See http://checkstyle.sf.net/config_whitespace.html -->
-	<module name="FileTabCharacter">
-		<property name="eachLine" value="true"/>
-	</module>
-
-	<module name="LineLength">
-		<property name="fileExtensions" value="java"/>
-		<property name="max" value="100"/>
-		<property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
 	</module>
 
 	<module name="TreeWalker">
@@ -121,7 +110,7 @@
 			<property name="option" value="nl"/>
 		</module>
 		<module name="PackageName">
-			<property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
+			<property name="format" value="^[a-z][a-z0-9]*(\.[a-z][a-z0-9]*)*$"/>
 			<message key="name.invalidPattern"
 			         value="Package name ''{0}'' must match pattern ''{1}''."/>
 		</module>
@@ -130,28 +119,28 @@
 			         value="Type name ''{0}'' must match pattern ''{1}''."/>
 		</module>
 		<module name="MemberName">
-			<property name="format" value="^[a-z][a-z0-9][a-zA-Z0-9]*$"/>
+			<property name="format" value="^[a-z][a-zA-Z0-9]*"/>
 			<message key="name.invalidPattern"
 			         value="Member name ''{0}'' must match pattern ''{1}''."/>
 		</module>
 		<module name="ParameterName">
-			<property name="format" value="^[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>
+			<property name="format" value="^[a-z][a-zA-Z0-9]*"/>
 			<message key="name.invalidPattern"
 			         value="Parameter name ''{0}'' must match pattern ''{1}''."/>
 		</module>
 		<module name="LambdaParameterName">
-			<property name="format" value="^[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>
+			<property name="format" value="^[a-z][a-zA-Z0-9]*"/>
 			<message key="name.invalidPattern"
 			         value="Lambda parameter name ''{0}'' must match pattern ''{1}''."/>
 		</module>
 		<module name="CatchParameterName">
-			<property name="format" value="^[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>
+			<property name="format" value="^[a-z][a-zA-Z0-9]*"/>
 			<message key="name.invalidPattern"
 			         value="Catch parameter name ''{0}'' must match pattern ''{1}''."/>
 		</module>
 		<module name="LocalVariableName">
 			<property name="tokens" value="VARIABLE_DEF"/>
-			<property name="format" value="^[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>
+			<property name="format" value="^[a-z][a-zA-Z0-9]*"/>
 			<message key="name.invalidPattern"
 			         value="Local variable name ''{0}'' must match pattern ''{1}''."/>
 		</module>
@@ -182,23 +171,28 @@
 			         value="GenericWhitespace ''{0}'' is not preceded with whitespace."/>
 		</module>
 		<module name="Indentation">
-			<property name="basicOffset" value="2"/>
+			<property name="basicOffset" value="8"/>
 			<property name="braceAdjustment" value="0"/>
-			<property name="caseIndent" value="2"/>
+			<property name="caseIndent" value="8"/>
 			<property name="throwsIndent" value="4"/>
-			<property name="lineWrappingIndentation" value="4"/>
-			<property name="arrayInitIndent" value="2"/>
+			<property name="lineWrappingIndentation" value="0"/>
+			<property name="arrayInitIndent" value="4"/>
 		</module>
 		<module name="AbbreviationAsWordInName">
 			<property name="ignoreFinal" value="false"/>
-			<property name="allowedAbbreviationLength" value="1"/>
+			<property name="allowedAbbreviationLength" value="5"/>
 		</module>
 		<module name="OverloadMethodsDeclarationOrder"/>
-		<module name="VariableDeclarationUsageDistance"/>
+		<module name="VariableDeclarationUsageDistance">
+			<property name="allowedDistance" value="5"/>
+			<property name="ignoreVariablePattern" value="^temp.*"/>
+			<property name="validateBetweenScopes" value="true"/>
+			<property name="ignoreFinal" value="false"/>
+		</module>
 		<module name="CustomImportOrder">
-			<property name="sortImportsInGroupAlphabetically" value="true"/>
+			<property name="sortImportsInGroupAlphabetically" value="false"/>
 			<property name="separateLineBetweenGroups" value="true"/>
-			<property name="customImportOrderRules" value="STATIC###THIRD_PARTY_PACKAGE"/>
+			<property name="customImportOrderRules" value="THIRD_PARTY_PACKAGE###STATIC"/>
 		</module>
 		<module name="MethodParamPad"/>
 		<module name="NoWhitespaceBefore">
@@ -224,9 +218,9 @@
 			<property name="allowSamelineMultipleAnnotations" value="true"/>
 		</module>
 		<module name="NonEmptyAtclauseDescription"/>
-		<module name="InvalidJavadocPosition"/>
 		<module name="JavadocTagContinuationIndentation"/>
 		<module name="SummaryJavadoc">
+			<property name="period" value=""/>
 			<property name="forbiddenSummaryFragments"
 			          value="^@return the *|^This method returns |^A [{]@code [a-zA-Z0-9]+[}]( is a )"/>
 		</module>
@@ -241,13 +235,9 @@
 			<property name="allowMissingParamTags" value="true"/>
 			<property name="allowMissingThrowsTags" value="true"/>
 			<property name="allowMissingReturnTag" value="true"/>
-			<property name="allowedAnnotations" value="Override, Test"/>
-			<property name="allowThrowsTagsForSubclasses" value="true"/>
-		</module>
-		<module name="MissingJavadocMethod">
-			<property name="scope" value="public"/>
 			<property name="minLineCount" value="2"/>
 			<property name="allowedAnnotations" value="Override, Test"/>
+			<property name="allowThrowsTagsForSubclasses" value="true"/>
 		</module>
 		<module name="MethodName">
 			<property name="format" value="^[a-z][a-z0-9][a-zA-Z0-9_]*$"/>
