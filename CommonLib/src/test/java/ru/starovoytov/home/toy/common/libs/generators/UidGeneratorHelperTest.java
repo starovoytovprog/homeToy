@@ -1,6 +1,7 @@
 package ru.starovoytov.home.toy.common.libs.generators;
 
 import org.junit.jupiter.api.Test;
+import ru.starovoytov.home.toy.common.libs.exceptions.UidGenerationException;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -30,7 +31,7 @@ final class UidGeneratorHelperTest {
 	 *
 	 * @throws InterruptedException прерывание
 	 */
-	@SuppressWarnings({"PMD.AvoidInstantiatingObjectsInLoops", "PMD.DoNotUseThreads"})
+	@SuppressWarnings({"PMD.AvoidInstantiatingObjectsInLoops", "PMD.DoNotUseThreads", "PMD.JUnitTestContainsTooManyAsserts"})
 	@Test
 	public void testGetUid() throws InterruptedException {
 		final List<UidGenerateThread> threads = new ArrayList<>(THREAD_COUNT);
@@ -54,6 +55,10 @@ final class UidGeneratorHelperTest {
 		}
 
 		assertEquals(GENERATE_COUNT * THREAD_COUNT, uidSet.size(), "Error in test generation unique uid");
+
+		for (final String uid : uidSet) {
+			assertEquals(56, uid.length(), "Uid have bad length");
+		}
 	}
 
 	/**
@@ -79,10 +84,15 @@ final class UidGeneratorHelperTest {
 		 * Заполнение коллекции идентификаторов
 		 */
 		@Override
+		@SuppressWarnings({"PMD.AvoidPrintStackTrace"})
 		public void run() {
 			for (int i = 0; i < GENERATE_COUNT; i++) {
 				synchronized (MONITOR) {
-					uidSet.add(getNewUid());
+					try {
+						uidSet.add(getNewUid());
+					} catch (UidGenerationException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}
