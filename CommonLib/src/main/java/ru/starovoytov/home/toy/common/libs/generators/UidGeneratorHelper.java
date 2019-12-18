@@ -29,6 +29,7 @@ public final class UidGeneratorHelper {
 	 * Сгенерировать идентификатор операции
 	 *
 	 * @return идентификатор операции
+	 * @throws UidGenerationException ошибка при генерации uid
 	 */
 	public static String getNewUid() throws UidGenerationException {
 		long rand = (long) (Math.random() * 1_000_000_000);
