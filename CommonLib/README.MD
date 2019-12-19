@@ -1,1 +1,1 @@
-Common library for project
+Библиотеки проекта.
