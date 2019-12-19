@@ -27,7 +27,6 @@ subprojects() {
 	compileJava.options.encoding = 'UTF-8'
 	compileTestJava.options.encoding = 'UTF-8'
 	version revision.shortV
-
 	javadoc {
 		options.encoding = 'UTF-8'
 		options.addStringOption 'charset', 'UTF-8'
@@ -38,7 +37,6 @@ subprojects() {
 		classpath += sourceSets.test.compileClasspath
 		source += sourceSets.test.allJava
 	}
-
 	jacoco {
 		toolVersion = jacocoVersion
 	}
@@ -93,6 +91,8 @@ subprojects() {
 		}
 	}
 	dependencies {
+		compile 'org.apache.logging.log4j:log4j-core:' + log4jVersion
+		compile 'com.fasterxml.jackson.core:jackson-databind:' + jacksonVersion
 		annotationProcessor 'org.checkerframework:checker:' + checkerVersion
 		testAnnotationProcessor 'org.checkerframework:checker:' + checkerVersion
 		testCompileOnly 'org.junit.jupiter:junit-jupiter-api:' + jUnitVersion
