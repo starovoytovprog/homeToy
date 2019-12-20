@@ -8,7 +8,7 @@ import ru.starovoytov.home.toy.common.libs.log.BaseLogMessageBuilder;
  * @author starovoytov
  * @since 2019.12.19
  */
-public class WebServiceLogMessageBuilder extends BaseLogMessageBuilder {
+public final class WebServiceLogMessageBuilder extends BaseLogMessageBuilder {
 	/**
 	 * Конструктор строителя
 	 */

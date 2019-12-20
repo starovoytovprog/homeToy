@@ -9,6 +9,7 @@ import org.apache.logging.log4j.MarkerManager;
  * @author starovoytov
  * @since 2019.12.19
  */
+@SuppressWarnings({"PMD.LongVariable"})
 public class MarkersHelper {
 	/**
 	 * Маркер http-клиента

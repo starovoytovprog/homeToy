@@ -1,10 +1,12 @@
 package ru.starovoytov.home.toy.common.libs.proto;
 
 /**
- * Базовый класс тела ответа
+ * Тело сообщения
  *
  * @author starovoytov
  * @since 2019.12.19
  */
-public class AbstractResponseBody extends AbstractBody {
+public class BaseBody {
+	protected BaseBody() {
+	}
 }

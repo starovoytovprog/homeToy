@@ -4,7 +4,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import ru.starovoytov.home.toy.common.libs.exceptions.HttpClientException;
-import ru.starovoytov.home.toy.common.libs.http.HttpClient;
+import ru.starovoytov.home.toy.common.libs.http.HttpClientUtility;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author starovoytov
  * @since 2019.12.19
  */
+@SuppressWarnings({"PMD.AtLeastOneConstructor"})
 class UndertowHttpServiceTest {
 	private static UndertowHttpService service;
 
@@ -37,9 +38,10 @@ class UndertowHttpServiceTest {
 	 * @throws HttpClientException ошибка обращения к сервису
 	 */
 	@Test
+	@SuppressWarnings({"PMD.LawOfDemeter"})
 	public void helloTest() throws IOException, HttpClientException {
-		HttpURLConnection connection = HttpClient.sendEmptyGetRequest("http://localhost:1111/hello", "test uid");
-		assertEquals(200, connection.getResponseCode());
+		final HttpURLConnection connection = HttpClientUtility.sendEmptyGetRequest("http://localhost:1111/hello", "test uid");
+		assertEquals(200, connection.getResponseCode(), "Hello don't started");
 	}
 
 	/**

@@ -22,7 +22,7 @@ public class UndertowHttpService {
 	/**
 	 * Инстанс undertow
 	 */
-	private final Undertow service;
+	private final transient Undertow service;
 
 	/**
 	 * Конструктор http-сервиса
@@ -31,10 +31,10 @@ public class UndertowHttpService {
 	 * @param host        хост
 	 * @param descriptors коллекция дескрипторов хендлеров
 	 */
-	public UndertowHttpService(int port, String host, Collection<HttpHandlerDescriptor> descriptors) {
-		PathHandler pathHandlers = Handlers.path();
+	public UndertowHttpService(final int port, final String host, final Collection<HttpHandlerDescriptor> descriptors) {
+		final PathHandler pathHandlers = Handlers.path();
 
-		for (HttpHandlerDescriptor descriptor : descriptors) {
+		for (final HttpHandlerDescriptor descriptor : descriptors) {
 			pathHandlers.addPrefixPath(descriptor.getPath(), descriptor.getHandler());
 		}
 

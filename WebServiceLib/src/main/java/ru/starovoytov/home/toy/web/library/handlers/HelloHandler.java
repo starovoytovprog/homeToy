@@ -9,7 +9,9 @@ import io.undertow.server.HttpServerExchange;
  * @author starovoytov
  * @since 2019.12.19
  */
-public class HelloHandler implements HttpHandler {
+@SuppressWarnings({"PMD.AtLeastOneConstructor"})
+public final class HelloHandler implements HttpHandler {
+
 	/**
 	 * Путь по умолчанию для жендлера хэлло
 	 */
@@ -25,7 +27,8 @@ public class HelloHandler implements HttpHandler {
 	}
 
 	@Override
-	public void handleRequest(HttpServerExchange exchange) throws Exception {
+	@SuppressWarnings({"PMD.LawOfDemeter"})
+	public void handleRequest(final HttpServerExchange exchange) throws Exception {
 		exchange.getResponseSender().send("Hello!");
 	}
 }

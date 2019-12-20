@@ -10,5 +10,5 @@ public class ConstantsHelper {
 	/**
 	 * Таймаут обращения к http-сервисам
 	 */
-	public static final int HTTP_REQUEST_TIMEOUT = 5_000;
+	public static final int HTTP_TIMEOUT = 5_000;
 }

@@ -24,7 +24,7 @@ public class HttpHandlerDescriptor {
 	 * @param path    путь к хендлеру
 	 * @param handler хендлер
 	 */
-	public HttpHandlerDescriptor(String path, HttpHandler handler) {
+	public HttpHandlerDescriptor(final String path, final HttpHandler handler) {
 		this.path = path;
 		this.handler = handler;
 	}

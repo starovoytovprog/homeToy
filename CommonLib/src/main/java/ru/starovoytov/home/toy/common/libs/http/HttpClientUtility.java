@@ -3,22 +3,22 @@ package ru.starovoytov.home.toy.common.libs.http;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.starovoytov.home.toy.common.libs.exceptions.HttpClientException;
 import ru.starovoytov.home.toy.common.libs.log.CommonLogMessageBuilder;
-import ru.starovoytov.home.toy.common.libs.proto.AbstractResponseBody;
+import ru.starovoytov.home.toy.common.libs.proto.BaseResponseBody;
 import ru.starovoytov.home.toy.common.libs.proto.Message;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 
-import static ru.starovoytov.home.toy.common.libs.ConstantsHelper.HTTP_REQUEST_TIMEOUT;
+import static ru.starovoytov.home.toy.common.libs.ConstantsHelper.HTTP_TIMEOUT;
 import static ru.starovoytov.home.toy.common.libs.log.MarkersHelper.HTTP_CLIENT;
 import static ru.starovoytov.home.toy.common.libs.log.MarkersHelper.HTTP_CLIENT_REQUEST;
 import static ru.starovoytov.home.toy.common.libs.log.MarkersHelper.HTTP_CLIENT_RESPONSE;
@@ -29,10 +29,16 @@ import static ru.starovoytov.home.toy.common.libs.log.MarkersHelper.HTTP_CLIENT_
  * @author starovoytov
  * @since 2019.12.19
  */
-public class HttpClient {
-	private static final String REQUEST_METHOD_GET = "GET";
+public final class HttpClientUtility {
+	private static final String GET = "GET";
 	private static final ObjectMapper MAPPER = new ObjectMapper();
-	private static final Logger LOGGER = LogManager.getLogger(HttpClient.class);
+	private static final Logger LOGGER = LogManager.getLogger(HttpClientUtility.class);
+
+	/**
+	 * private-конструктор
+	 */
+	private HttpClientUtility() {
+	}
 
 	/**
 	 * Отправляет пустой get-запрос на адрес и получает результат
@@ -43,9 +49,9 @@ public class HttpClient {
 	 * @throws IOException         Ошибки запроса к серверу
 	 * @throws HttpClientException Ошибки запроса к серверу
 	 */
-	public static HttpURLConnection sendEmptyGetRequest(String address,
-		String uid) throws IOException, HttpClientException {
-		return sendRequestWithParameters(address, null, null, REQUEST_METHOD_GET, uid);
+	public static HttpURLConnection sendEmptyGetRequest(final String address,
+		final String uid) throws IOException, HttpClientException {
+		return sendRequestWithParameters(address, null, null, GET, uid);
 	}
 
 	/**
@@ -54,35 +60,42 @@ public class HttpClient {
 	 * @param address   Адрес запрашиваемого документа
 	 * @param json      json запроса
 	 * @param reference ссылка на тип сообщения
-	 * @param ouid      ouid операции
+	 * @param uid       ouid операции
 	 * @param <B>       класс тела ответа.
 	 * @return Контент страницы ответа
 	 * @throws IOException         Ошибки запроса к серверу
 	 * @throws HttpClientException Ошибки запроса к серверу
 	 */
-	public static <B extends AbstractResponseBody> Message<B> sendJsonGetRequest(String address, JsonNode json,
-		TypeReference<Message<B>> reference, String ouid) throws IOException, HttpClientException {
-		long startTime = System.currentTimeMillis();
+	@SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "PMD.LawOfDemeter"})
+	public static <B extends BaseResponseBody> Message<B> sendJsonGetRequest(final String address,
+		final JsonNode json, final TypeReference<Message<B>> reference,
+		final String uid) throws IOException, HttpClientException {
 
 		LOGGER.info(HTTP_CLIENT_REQUEST, () -> CommonLogMessageBuilder.create()
 			.addUri(address)
 			.addMsg("Send request")
-			.addUid(ouid)
+			.addUid(uid)
 			.addJsonMessage(json)
 			.build());
 
-		HttpURLConnection connection = sendRequestWithParameters(address, json, null, REQUEST_METHOD_GET, ouid);
-		Message<B> response = MAPPER.readValue(connection.getInputStream(), reference);
+		long timeMarker = System.currentTimeMillis();
 
-		LOGGER.info(HTTP_CLIENT_RESPONSE, () -> CommonLogMessageBuilder.create()
-			.addUri(address)
-			.addUid(ouid)
-			.addMsg("Receive response")
-			.addOperationTime(System.currentTimeMillis() - startTime)
-			.addJsonMessage(MAPPER.convertValue(response, JsonNode.class))
-			.build());
+		try (InputStream iStream = sendRequestWithParameters(address, json, null, GET, uid).getInputStream()) {
+			final Message<B> response = MAPPER.readValue(iStream, reference);
 
-		return response;
+			timeMarker = System.currentTimeMillis() - timeMarker;
+			final long finalTimeMarker = timeMarker;
+
+			LOGGER.info(HTTP_CLIENT_RESPONSE, () -> CommonLogMessageBuilder.create()
+				.addUri(address)
+				.addUid(uid)
+				.addMsg("Receive response")
+				.addOperationTime(finalTimeMarker)
+				.addJsonMessage(MAPPER.convertValue(response, JsonNode.class))
+				.build());
+
+			return response;
+		}
 	}
 
 	/**
@@ -97,12 +110,13 @@ public class HttpClient {
 	 * @throws HttpClientException ошибка подключения
 	 * @throws IOException         ошибки ввода-вывода в подключение
 	 */
-	private static HttpURLConnection sendRequestWithParameters(String address, JsonNode parameters,
-		Map<String, String> param, String method, String uid) throws HttpClientException, IOException {
-		HttpURLConnection connection = getConnection(address, method, uid);
+	private static HttpURLConnection sendRequestWithParameters(final String address, final JsonNode parameters,
+		final Map<String, String> param, final String method,
+		final String uid) throws HttpClientException, IOException {
+		final HttpURLConnection connection = getConnection(address, method, uid);
 
 		if (param != null) {
-			for (Map.Entry<String, String> entry : param.entrySet()) {
+			for (final Map.Entry<String, String> entry : param.entrySet()) {
 				connection.setRequestProperty(entry.getKey(), entry.getValue());
 			}
 		}
@@ -134,13 +148,14 @@ public class HttpClient {
 	 * @return Коннектор
 	 * @throws HttpClientException Ошибки подключения
 	 */
-	private static HttpURLConnection getConnection(String address, String requestMethod,
-		String uid) throws HttpClientException {
+	@SuppressWarnings({"PMD.LawOfDemeter"})
+	private static HttpURLConnection getConnection(final String address, final String requestMethod,
+		final String uid) throws HttpClientException {
 		try {
-			URL url = new URL(address);
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			connection.setConnectTimeout(HTTP_REQUEST_TIMEOUT);
-			connection.setReadTimeout(HTTP_REQUEST_TIMEOUT);
+			final URL url = new URL(address);
+			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setConnectTimeout(HTTP_TIMEOUT);
+			connection.setReadTimeout(HTTP_TIMEOUT);
 			connection.setRequestMethod(requestMethod);
 			return connection;
 		} catch (IOException ex) {
@@ -160,13 +175,12 @@ public class HttpClient {
 	 * @return строка параметров
 	 * @throws IOException Ошибка записи объекта
 	 */
-	private static byte[] getParametersAsBytes(JsonNode parameters) throws IOException {
+	@SuppressWarnings({"PMD.OnlyOneReturn"})
+	private static byte[] getParametersAsBytes(final JsonNode parameters) throws IOException {
 		if (parameters == null) {
 			return new byte[0];
 		}
-		ObjectMapper objectMapper = new ObjectMapper();
-		ObjectWriter objectWriter = objectMapper.writer();
 
-		return objectWriter.writeValueAsBytes(parameters);
+		return new ObjectMapper().writer().writeValueAsBytes(parameters);
 	}
 }

@@ -6,11 +6,11 @@ package ru.starovoytov.home.toy.common.libs.proto;
  * @author starovoytov
  * @since 2019.12.19
  */
-public class Message<B extends AbstractBody> {
+public class Message<B extends BaseBody> {
 	/**
 	 * Заголовок сообщения
 	 */
-	private final Head head;
+	private final MessageHead messageHead;
 	/**
 	 * Тело сообщения
 	 */
@@ -19,11 +19,11 @@ public class Message<B extends AbstractBody> {
 	/**
 	 * Конструктор сообщения
 	 *
-	 * @param head заголовок
+	 * @param messageHead заголовок
 	 * @param body тело
 	 */
-	public Message(Head head, B body) {
-		this.head = head;
+	public Message(final MessageHead messageHead, final B body) {
+		this.messageHead = messageHead;
 		this.body = body;
 	}
 
@@ -32,8 +32,8 @@ public class Message<B extends AbstractBody> {
 	 *
 	 * @return заголовок сообщения
 	 */
-	public Head getHead() {
-		return head;
+	public MessageHead getMessageHead() {
+		return messageHead;
 	}
 
 	/**

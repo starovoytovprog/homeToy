@@ -8,7 +8,9 @@ import java.util.Objects;
  * @author starovoytov
  * @since 2019.12.19
  */
-public class Head {
+@SuppressWarnings({"PMD.DataClass"})
+public final class MessageHead {
+
 	/**
 	 * Версия протокола
 	 */
@@ -27,6 +29,27 @@ public class Head {
 	private String receiver;
 
 	/**
+	 * Конструктор по умолчанию
+	 */
+	public MessageHead() {
+	}
+
+	/**
+	 * Конструктор с параметрами
+	 *
+	 * @param version  версия протокола
+	 * @param uid      uid операции
+	 * @param sender   отправитель сообщения
+	 * @param receiver получатель сообщения
+	 */
+	public MessageHead(final String version, final String uid, final String sender, final String receiver) {
+		this.version = version;
+		this.uid = uid;
+		this.sender = sender;
+		this.receiver = receiver;
+	}
+
+	/**
 	 * Получить версию протокола
 	 *
 	 * @return версия протокола
@@ -40,7 +63,7 @@ public class Head {
 	 *
 	 * @param version версия протокола
 	 */
-	public void setVersion(String version) {
+	public void setVersion(final String version) {
 		this.version = version;
 	}
 
@@ -58,7 +81,7 @@ public class Head {
 	 *
 	 * @param uid uid операции
 	 */
-	public void setUid(String uid) {
+	public void setUid(final String uid) {
 		this.uid = uid;
 	}
 
@@ -76,7 +99,7 @@ public class Head {
 	 *
 	 * @param sender отправитель
 	 */
-	public void setSender(String sender) {
+	public void setSender(final String sender) {
 		this.sender = sender;
 	}
 
@@ -94,17 +117,22 @@ public class Head {
 	 *
 	 * @param receiver получатель
 	 */
-	public void setReceiver(String receiver) {
+	public void setReceiver(final String receiver) {
 		this.receiver = receiver;
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof Head)) return false;
-		Head head = (Head) o;
-		return Objects.equals(getVersion(), head.getVersion()) && Objects.equals(getUid(), head.getUid()) && Objects.equals(getSender(), head
-			.getSender()) && Objects.equals(getReceiver(), head.getReceiver());
+	@SuppressWarnings({"PMD.OnlyOneReturn", "PMD.LawOfDemeter"})
+	public boolean equals(final Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof MessageHead)) {
+			return false;
+		}
+		final MessageHead messageHead = (MessageHead) obj;
+		return Objects.equals(getVersion(), messageHead.getVersion()) && Objects.equals(getUid(), messageHead.getUid()) && Objects
+			.equals(getSender(), messageHead.getSender()) && Objects.equals(getReceiver(), messageHead.getReceiver());
 	}
 
 	@Override

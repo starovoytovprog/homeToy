@@ -13,7 +13,7 @@ import java.util.Map;
  * @author starovoytov
  * @since 2019.12.19
  */
-public abstract class BaseLogMessageBuilder {
+public class BaseLogMessageBuilder {
 	/**
 	 * Поле для произвольного текста
 	 */
@@ -34,11 +34,12 @@ public abstract class BaseLogMessageBuilder {
 	/**
 	 * Контейнер аргументов для создания сообщения
 	 */
-	private final Map<String, Object> arguments = new HashMap<>();
+	@SuppressWarnings({"PMD.UseConcurrentHashMap"})
+	private final transient Map<String, Object> arguments = new HashMap<>();
 	/**
 	 * Маппер для работы с объектами json
 	 */
-	private final ObjectMapper mapper = new ObjectMapper();
+	private final transient ObjectMapper mapper = new ObjectMapper();
 
 	/**
 	 * Инициализация строителя сообщений
@@ -53,7 +54,7 @@ public abstract class BaseLogMessageBuilder {
 	 * @param value значение
 	 * @return Построитель сообщений
 	 */
-	public BaseLogMessageBuilder add(String field, String value) {
+	public BaseLogMessageBuilder add(final String field, final String value) {
 		arguments.put(field, value);
 		return this;
 	}
@@ -64,7 +65,7 @@ public abstract class BaseLogMessageBuilder {
 	 * @param msg произвольный текст
 	 * @return Построитель сообщений
 	 */
-	public BaseLogMessageBuilder addMsg(String msg) {
+	public BaseLogMessageBuilder addMsg(final String msg) {
 		arguments.put(MSG, msg);
 		return this;
 	}
@@ -75,7 +76,7 @@ public abstract class BaseLogMessageBuilder {
 	 * @param uid идентификатор операции
 	 * @return Построитель сообщений
 	 */
-	public BaseLogMessageBuilder addUid(String uid) {
+	public BaseLogMessageBuilder addUid(final String uid) {
 		arguments.put(UID, uid);
 		return this;
 	}
@@ -86,7 +87,7 @@ public abstract class BaseLogMessageBuilder {
 	 * @param operationTime время выполнениея операции
 	 * @return Построитель сообщений
 	 */
-	public BaseLogMessageBuilder addOperationTime(long operationTime) {
+	public BaseLogMessageBuilder addOperationTime(final long operationTime) {
 		arguments.put(OPERATION_TIME, operationTime);
 		return this;
 	}
@@ -97,7 +98,7 @@ public abstract class BaseLogMessageBuilder {
 	 * @param msg json-сообщение
 	 * @return Построитель сообщений
 	 */
-	public BaseLogMessageBuilder addJsonMessage(JsonNode msg) {
+	public BaseLogMessageBuilder addJsonMessage(final JsonNode msg) {
 		arguments.put(JSON_MESSAGE, msg);
 		return this;
 	}
@@ -107,6 +108,7 @@ public abstract class BaseLogMessageBuilder {
 	 *
 	 * @return Сообщение лога или сообщение о проблеме с конвертацией JSON.
 	 */
+	@SuppressWarnings({"PMD.OnlyOneReturn", "PMD.LawOfDemeter"})
 	public String build() {
 		try {
 			return mapper.writer().writeValueAsString(arguments);
