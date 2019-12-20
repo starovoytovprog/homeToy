@@ -92,6 +92,7 @@ subprojects() {
 	}
 	dependencies {
 		compile 'org.apache.logging.log4j:log4j-core:' + log4jVersion
+		compile 'com.lmax:disruptor:' + disruptorVersion
 		compile 'com.fasterxml.jackson.core:jackson-databind:' + jacksonVersion
 		annotationProcessor 'org.checkerframework:checker:' + checkerVersion
 		testAnnotationProcessor 'org.checkerframework:checker:' + checkerVersion

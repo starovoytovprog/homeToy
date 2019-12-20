@@ -8,4 +8,5 @@ ext {
 	undertowVersion = '2.0.28.Final'
 	log4jVersion = '2.13.0'
 	jacksonVersion = '2.10.1'
+	disruptorVersion = '3.4.2'
 }
