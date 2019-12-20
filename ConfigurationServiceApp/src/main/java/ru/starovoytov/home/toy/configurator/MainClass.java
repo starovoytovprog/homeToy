@@ -1,5 +1,6 @@
 package ru.starovoytov.home.toy.configurator;
 
+import ru.starovoytov.home.toy.configurator.configuration.Configurator;
 import ru.starovoytov.home.toy.web.library.UndertowHttpService;
 
 import java.util.ArrayList;
@@ -21,7 +22,8 @@ public final class MainClass {
 	 * Конструктор по умолчанию
 	 */
 	private MainClass() {
-		service = new UndertowHttpService(1111, "localhost", new ArrayList<>());
+		service = new UndertowHttpService(Configurator.getInstance().getPort(), Configurator.getInstance()
+			.getHost(), new ArrayList<>());
 	}
 
 	/**
