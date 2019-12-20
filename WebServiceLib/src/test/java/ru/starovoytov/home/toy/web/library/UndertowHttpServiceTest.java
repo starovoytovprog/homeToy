@@ -11,6 +11,7 @@ import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static ru.starovoytov.home.toy.test.utils.TestUtils.getFreePort;
 
 /**
  * Тест хэлпера для генерации идентификаторов операции {@link UndertowHttpService}
@@ -21,13 +22,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SuppressWarnings({"PMD.AtLeastOneConstructor"})
 class UndertowHttpServiceTest {
 	private static UndertowHttpService service;
+	private static final int SERVICE_PORT = getFreePort();
 
 	/**
 	 * Конфигурация и запуск сервиса
 	 */
 	@BeforeAll
 	public static void startService() {
-		service = new UndertowHttpService(1111, "localhost", new ArrayList<>());
+		service = new UndertowHttpService(SERVICE_PORT, "localhost", new ArrayList<>());
 		service.start();
 	}
 
@@ -40,7 +42,7 @@ class UndertowHttpServiceTest {
 	@Test
 	@SuppressWarnings({"PMD.LawOfDemeter"})
 	public void helloTest() throws IOException, HttpClientException {
-		final HttpURLConnection connection = HttpClientUtility.sendEmptyGetRequest("http://localhost:1111/hello", "test uid");
+		final HttpURLConnection connection = HttpClientUtility.sendEmptyGetRequest("http://localhost:" + SERVICE_PORT + "/hello", "test uid");
 		assertEquals(200, connection.getResponseCode(), "Hello don't started");
 	}
 
