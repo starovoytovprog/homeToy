@@ -14,9 +14,19 @@ import java.util.ArrayList;
 public final class MainClass {
 
 	/**
+	 * Инстанс главного класса
+	 */
+	private static final MainClass INSTANCE = new MainClass();
+
+	/**
 	 * Инстанс сервиса
 	 */
 	private final transient UndertowHttpService service;
+
+	/**
+	 * Признак запуска сервиса
+	 */
+	private transient boolean started;
 
 	/**
 	 * Конструктор по умолчанию
@@ -30,7 +40,24 @@ public final class MainClass {
 	 * Запуск сервиса
 	 */
 	public void start() {
-		service.start();
+		synchronized (INSTANCE) {
+			if (!started) {
+				service.start();
+				started = true;
+			}
+		}
+	}
+
+	/**
+	 * Остановка сервиса
+	 */
+	public void stop() {
+		synchronized (INSTANCE) {
+			if (started) {
+				service.stop();
+				started = false;
+			}
+		}
 	}
 
 	/**
@@ -39,7 +66,15 @@ public final class MainClass {
 	 * @param args аргументы командной строки
 	 */
 	public static void main(final String[] args) {
-		final MainClass mainClass = new MainClass();
-		mainClass.start();
+		INSTANCE.start();
+	}
+
+	/**
+	 * Получить ссылку на главный класс
+	 *
+	 * @return ссылка на главный класс
+	 */
+	public static MainClass getInstance() {
+		return INSTANCE;
 	}
 }

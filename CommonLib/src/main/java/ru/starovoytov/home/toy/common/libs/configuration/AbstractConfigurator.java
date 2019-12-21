@@ -18,6 +18,10 @@ public abstract class AbstractConfigurator {
 	 * Контейнер параметров по умолчанию
 	 */
 	private final transient Map<String, String> defaultParameters;
+	/**
+	 * Контейнер фиксированных параметров
+	 */
+	private final transient Map<String, String> finalParameters;
 
 	/**
 	 * Конструктор по умолчанию
@@ -25,6 +29,7 @@ public abstract class AbstractConfigurator {
 	protected AbstractConfigurator() {
 		this.parameters = new HashMap<>();
 		this.defaultParameters = new HashMap<>();
+		this.finalParameters = new HashMap<>();
 		fillDefaultParameters();
 	}
 
@@ -44,6 +49,16 @@ public abstract class AbstractConfigurator {
 	}
 
 	/**
+	 * Добавить фиксированное значение
+	 *
+	 * @param key   ключ
+	 * @param value значение
+	 */
+	public void setFinalParameter(final String key, final String value) {
+		finalParameters.put(key, value);
+	}
+
+	/**
 	 * Получить строковое значение по ключу
 	 *
 	 * @param key ключ
@@ -51,6 +66,12 @@ public abstract class AbstractConfigurator {
 	 */
 	protected String getStringParameter(final String key) {
 		String value = parameters.get(key);
+		if (value == null) {
+			value = finalParameters.get(key);
+			if (value != null) {
+				parameters.put(key, value);
+			}
+		}
 		if (value == null) {
 			value = defaultParameters.get(key);
 			if (value != null) {
@@ -60,6 +81,12 @@ public abstract class AbstractConfigurator {
 		return value;
 	}
 
+	/**
+	 * Получить числовое значение по ключу
+	 *
+	 * @param key ключ
+	 * @return значение
+	 */
 	protected int getIntParameter(final String key) {
 		return Integer.parseInt(getStringParameter(key));
 	}
