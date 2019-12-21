@@ -17,21 +17,20 @@ import static ru.starovoytov.home.toy.common.libs.generators.UidGeneratorHelper.
  * @author starovoytov
  * @since 2019.12.10
  */
+@SuppressWarnings({"PMD.AtLeastOneConstructor"})
 final class UidGeneratorHelperTest {
 	private static final int GENERATE_COUNT = 1000;
 	private static final int THREAD_COUNT = 10;
 
 	private static final Object MONITOR = new Object();
 
-	public UidGeneratorHelperTest() {
-	}
-
 	/**
 	 * Тест генерации uid
 	 *
 	 * @throws InterruptedException прерывание
 	 */
-	@SuppressWarnings({"PMD.AvoidInstantiatingObjectsInLoops", "PMD.DoNotUseThreads", "PMD.JUnitTestContainsTooManyAsserts"})
+	@SuppressWarnings(
+		{"PMD.AvoidInstantiatingObjectsInLoops", "PMD.DoNotUseThreads", "PMD.JUnitTestContainsTooManyAsserts"})
 	@Test
 	public void testGetUid() throws InterruptedException {
 		final List<UidGenerateThread> threads = new ArrayList<>(THREAD_COUNT);

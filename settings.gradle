@@ -10,3 +10,7 @@ System.properties['file.encoding'] = 'UTF-8'
 rootProject.name = 'homeToy'
 
 include ':CommonLib'
+include ':TestUtilsLib'
+include ':WebServiceLib'
+
+include ':ConfigurationServiceApp'

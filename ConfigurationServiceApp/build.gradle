@@ -1,0 +1,26 @@
+plugins {
+	id 'application'
+}
+mainClassName = 'ru.starovoytov.home.toy.configurator.MainClass'
+dependencies {
+	compile project(':WebServiceLib')
+
+	testCompile project(':TestUtilsLib')
+}
+jar {
+	archiveBaseName = project.name
+	manifest {
+		attributes "Main-Class": mainClassName
+		attributes "Implementation-Version": revision.shortV
+		attributes "Implementation-Title": project.name
+	}
+	from {
+		configurations.compile.collect {
+			it.isDirectory() ? it : zipTree(it)
+		}
+		configurations.runtime.collect {
+			it.isDirectory() ? it : zipTree(it)
+		}
+	}
+	exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
+}

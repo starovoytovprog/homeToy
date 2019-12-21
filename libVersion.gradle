@@ -5,4 +5,8 @@ ext {
 	pmdVersion = '6.20.0' // https://pmd.github.io/
 	spotBugsVersion = '3.1.12' // https://github.com/spotbugs/spotbugs/issues/616
 	checkStyleVersion = '8.22' // https://github.com/checkstyle/checkstyle/releases/
+	undertowVersion = '2.0.28.Final'
+	log4jVersion = '2.13.0'
+	jacksonVersion = '2.10.1'
+	disruptorVersion = '3.4.2'
 }

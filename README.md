@@ -1,1 +1,1 @@
-My project for home
+Домашний проект
