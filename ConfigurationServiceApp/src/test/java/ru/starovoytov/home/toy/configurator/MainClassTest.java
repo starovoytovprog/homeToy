@@ -3,8 +3,10 @@ package ru.starovoytov.home.toy.configurator;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import ru.starovoytov.home.toy.configurator.configuration.Configurator;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static ru.starovoytov.home.toy.test.utils.TestUtils.getFreePort;
 
 /**
  * Тест сервиса {@link MainClass}
@@ -20,8 +22,17 @@ class MainClassTest {
 	 */
 	private static final String[] ARGS = new String[0];
 
+	/**
+	 * Порт для тестов
+	 */
+	private static int servicePort;
+
 	@BeforeAll
+	@SuppressWarnings({"PMD.LawOfDemeter"})
 	public static void configureAndStart() {
+		servicePort = getFreePort();
+		Configurator.getInstance().setFinalParameter("PORT", Integer.toString(servicePort));
+		Configurator.getInstance().clearParameters();
 		MainClass.main(ARGS);
 	}
 

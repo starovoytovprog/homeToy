@@ -4,6 +4,8 @@ plugins {
 mainClassName = 'ru.starovoytov.home.toy.configurator.MainClass'
 dependencies {
 	compile project(':WebServiceLib')
+
+	testCompile project(':TestUtilsLib')
 }
 jar {
 	archiveBaseName = project.name
