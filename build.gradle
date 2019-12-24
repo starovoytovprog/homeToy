@@ -109,4 +109,12 @@ subprojects() {
 		dependsOn(javadoc)
 		dependsOn(buildDependents)
 	}
+	task fullBuild() {
+		group = "build"
+		dependsOn(check)
+		dependsOn(test)
+		dependsOn(jar)
+		dependsOn(javadoc)
+		dependsOn(buildDependents)
+	}
 }
