@@ -23,6 +23,7 @@ subprojects() {
 	apply plugin: 'pmd'
 	apply plugin: 'checkstyle'
 	apply plugin: "com.github.spotbugs"
+	apply plugin: "maven-publish"
 	group 'ru.starovoytov.home.toy'
 	compileJava.options.encoding = 'UTF-8'
 	compileTestJava.options.encoding = 'UTF-8'
@@ -115,5 +116,29 @@ subprojects() {
 		dependsOn(test)
 		dependsOn(jar)
 		dependsOn(javadoc)
+	}
+	publishing {
+		publications {
+			maven(MavenPublication) {
+				artifact("build/libs/" + project.name + "-" + version + ".jar") {
+					extension "jar"
+				}
+			}
+		}
+		repositories {
+			maven {
+				name "nexus"
+				url System.getenv("NEXUS_ADDRESS")
+				credentials {
+					username System.getenv("NEXUS_LOGIN")
+					password System.getenv("NEXUS_PASSWORD")
+				}
+			}
+		}
+	}
+	task publishAll() {
+		group = "publishing"
+		dependsOn(jar)
+		dependsOn(publish)
 	}
 }
