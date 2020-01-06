@@ -64,10 +64,17 @@ public abstract class AbstractConfigurator {
 	 * @param key ключ
 	 * @return значение
 	 */
+	@SuppressWarnings({"PMD.LawOfDemeter"})
 	protected String getStringParameter(final String key) {
 		String value = parameters.get(key);
 		if (value == null) {
 			value = finalParameters.get(key);
+			if (value != null) {
+				parameters.put(key, value);
+			}
+		}
+		if (value == null) {
+			value = System.getenv().get(key);
 			if (value != null) {
 				parameters.put(key, value);
 			}

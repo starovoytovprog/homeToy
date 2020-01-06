@@ -1,7 +1,11 @@
 package ru.starovoytov.home.toy.test.utils;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.ServerSocket;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -55,5 +59,27 @@ public final class TestUtils {
 				startPortLocal++;
 			}
 		}
+	}
+
+	/**
+	 * Установить значение переменной окружения
+	 *
+	 * @param name  имя переменной
+	 * @param value значение переменной
+	 */
+	@SuppressWarnings({"unchecked", "PMD.AvoidPrintStackTrace"})
+	public static void setEnv(final String name, final String value) {
+		AccessController.doPrivileged((PrivilegedAction) () -> {
+			try {
+				final Class unmodifiableMap = Class.forName("java.util.Collections$UnmodifiableMap");
+				final Field field = unmodifiableMap.getDeclaredField("m");
+				field.setAccessible(true);
+				final Object obj = field.get(System.getenv());
+				((Map<String, String>) obj).put(name, value);
+			} catch (ClassNotFoundException | NoSuchFieldException | IllegalArgumentException | IllegalAccessException ex) {
+				ex.printStackTrace();
+			}
+			return null;
+		});
 	}
 }

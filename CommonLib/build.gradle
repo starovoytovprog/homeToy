@@ -1,3 +1,6 @@
 jar {
 	archiveBaseName = project.name
 }
+dependencies {
+	testCompile project(':TestUtilsLib')
+}
