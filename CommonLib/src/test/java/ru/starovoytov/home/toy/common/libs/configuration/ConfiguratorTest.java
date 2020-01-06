@@ -3,6 +3,7 @@ package ru.starovoytov.home.toy.common.libs.configuration;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static ru.starovoytov.home.toy.test.utils.TestUtils.setEnv;
 
 /**
  * Тест конфигуратора
@@ -16,6 +17,7 @@ class ConfiguratorTest {
 	 * Ключ тестового параметра
 	 */
 	private static final String DEFAULT = "DEFAULT";
+	private static final String DEFAULT_VALUE = "defaultValue";
 
 	/**
 	 * Получение значения по умолчанию
@@ -23,7 +25,17 @@ class ConfiguratorTest {
 	@Test
 	public void default1Test() {
 		final TestConfigurator configurator = new TestConfigurator();
-		assertEquals("defaultValue", configurator.getDefault(), "Not default value");
+		assertEquals(DEFAULT_VALUE, configurator.getDefault(), "Not default value");
+	}
+
+	/**
+	 * Получение значения переменной окружения
+	 */
+	@Test
+	public void envTest() {
+		final TestConfigurator configurator = new TestConfigurator();
+		setEnv(DEFAULT_VALUE, "env value");
+		assertEquals(DEFAULT_VALUE, configurator.getDefault(), "Not default value");
 	}
 
 	/**
@@ -34,7 +46,7 @@ class ConfiguratorTest {
 		final TestConfigurator configurator = new TestConfigurator();
 		configurator.getDefault();
 		configurator.setDefault("value2");
-		assertEquals("defaultValue", configurator.getDefault(), "New default value");
+		assertEquals(DEFAULT_VALUE, configurator.getDefault(), "New default value");
 	}
 
 	/**
@@ -59,6 +71,7 @@ class ConfiguratorTest {
 		configurator.setDefault("value4");
 		configurator.setFinalParameter(DEFAULT, "fixed");
 		configurator.clearParameters();
+		setEnv(DEFAULT_VALUE, "env value");
 		assertEquals("fixed", configurator.getDefault(), "Not fixed value");
 	}
 
@@ -68,7 +81,7 @@ class ConfiguratorTest {
 	private static class TestConfigurator extends AbstractConfigurator {
 		@Override
 		protected void fillDefaultParameters() {
-			setDefaultParameter(DEFAULT, "defaultValue");
+			setDefaultParameter(DEFAULT, DEFAULT_VALUE);
 		}
 
 		public String getDefault() {
