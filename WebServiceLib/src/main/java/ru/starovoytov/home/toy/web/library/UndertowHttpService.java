@@ -5,6 +5,7 @@ import io.undertow.Undertow;
 import io.undertow.server.handlers.PathHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.starovoytov.home.toy.common.libs.configuration.AbstractConfigurator;
 import ru.starovoytov.home.toy.web.library.handlers.HelloHandler;
 import ru.starovoytov.home.toy.web.library.log.MarkersHelper;
 import ru.starovoytov.home.toy.web.library.log.WebServiceLogMessageBuilder;
@@ -27,18 +28,20 @@ public class UndertowHttpService {
 	/**
 	 * Конструктор http-сервиса
 	 *
-	 * @param port        порт
-	 * @param host        хост
-	 * @param descriptors коллекция дескрипторов хендлеров
+	 * @param port         порт
+	 * @param host         хост
+	 * @param descriptors  коллекция дескрипторов хендлеров
+	 * @param configurator конфигуратор приложения
 	 */
-	public UndertowHttpService(final int port, final String host, final Collection<HttpHandlerDescriptor> descriptors) {
+	public UndertowHttpService(final int port, final String host, final Collection<HttpHandlerDescriptor> descriptors,
+		final AbstractConfigurator configurator) {
 		final PathHandler pathHandlers = Handlers.path();
 
 		for (final HttpHandlerDescriptor descriptor : descriptors) {
 			pathHandlers.addPrefixPath(descriptor.getPath(), descriptor.getHandler());
 		}
 
-		pathHandlers.addPrefixPath(HelloHandler.getDefaultPath(), new HelloHandler());
+		pathHandlers.addPrefixPath(HelloHandler.getDefaultPath(), new HelloHandler(configurator));
 
 		service = Undertow.builder().addHttpListener(port, host, pathHandlers).build();
 
