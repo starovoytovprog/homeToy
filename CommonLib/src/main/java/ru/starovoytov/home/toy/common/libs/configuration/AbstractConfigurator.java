@@ -1,6 +1,7 @@
 package ru.starovoytov.home.toy.common.libs.configuration;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -10,6 +11,12 @@ import java.util.Map;
  * @since 2019.12.20
  */
 public abstract class AbstractConfigurator {
+
+	/**
+	 * Ключ, оозначающий параметр-пароль
+	 */
+	private static final String PASSWORD_KEY = "password";
+
 	/**
 	 * Контейнер параметров
 	 */
@@ -133,6 +140,7 @@ public abstract class AbstractConfigurator {
 	 * @param map мапа
 	 * @return строка
 	 */
+	@SuppressWarnings({"PMD.LawOfDemeter"})
 	private String mapToString(final Map<String, String> map) {
 		final StringBuilder builder = new StringBuilder();
 
@@ -142,7 +150,11 @@ public abstract class AbstractConfigurator {
 			}
 			builder.append(entry.getKey());
 			builder.append('=');
-			builder.append(entry.getValue());
+			if (entry.getKey().toLowerCase(Locale.getDefault()).contains(PASSWORD_KEY)) {
+				builder.append("***");
+			} else {
+				builder.append(entry.getValue());
+			}
 		}
 
 		return builder.toString();

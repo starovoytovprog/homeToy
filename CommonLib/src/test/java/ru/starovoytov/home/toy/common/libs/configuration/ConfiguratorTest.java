@@ -110,6 +110,7 @@ class ConfiguratorTest {
 			setDefaultParameter(DEFAULT_KEY + "1", DEFAULT_VALUE + "1");
 			setDefaultParameter(DEFAULT_KEY + "2", DEFAULT_VALUE + "2");
 			setDefaultParameter(DEFAULT_KEY + "3", DEFAULT_VALUE + "3");
+			setDefaultParameter("SQL_PASSWORD", "123456");
 		}
 
 		public String getDefault() {
