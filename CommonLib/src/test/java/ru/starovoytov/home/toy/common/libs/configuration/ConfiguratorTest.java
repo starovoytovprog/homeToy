@@ -84,6 +84,7 @@ class ConfiguratorTest {
 	 * @throws ResourceException ошибка обращения к ресурсу
 	 */
 	@Test
+	@SuppressWarnings({"PMD.LawOfDemeter"})
 	public void stringTest() throws ResourceException {
 		setEnv(DEFAULT_KEY + "1", "envKey1");
 		setEnv(DEFAULT_KEY + "2", "envKey2");
@@ -94,7 +95,9 @@ class ConfiguratorTest {
 		configurator.getDefault2();
 		configurator.getDefault3();
 		final String confString = getFileContentFromResources("/configuratorToString.txt");
-		assertEquals(confString, configurator.toString(), "Bad configurator string");
+		final String resString = configurator.toString()
+			.substring(0, configurator.toString().indexOf("EnvValues:\n") + 10);
+		assertEquals(confString, resString, "Bad configurator string");
 	}
 
 	/**

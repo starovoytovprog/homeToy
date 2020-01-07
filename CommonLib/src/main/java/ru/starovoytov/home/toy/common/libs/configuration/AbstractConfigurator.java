@@ -115,12 +115,14 @@ public abstract class AbstractConfigurator {
 		final StringBuilder stringBuilder = new StringBuilder(500);
 		stringBuilder.append("Configurator: ")
 			.append(this.getClass().toString())
+			.append("\n\nActualValues:\n")
+			.append(mapToString(parameters))
 			.append("\n\nDefaultValues:\n")
 			.append(mapToString(defaultParameters))
 			.append("\n\nFinalValues:\n")
 			.append(mapToString(finalParameters))
-			.append("\n\nActualValues:\n")
-			.append(mapToString(parameters));
+			.append("\n\nEnvValues:\n")
+			.append(mapToString(System.getenv()));
 
 		return stringBuilder.toString();
 	}
