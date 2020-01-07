@@ -24,6 +24,16 @@ public final class HelloHandler implements HttpHandler {
 	private final transient AbstractConfigurator configurator;
 
 	/**
+	 * Имя сервиса
+	 */
+	private static final String SERVICE_NAME = AbstractConfigurator.class.getPackage().getImplementationTitle();
+
+	/**
+	 * Версия сервиса
+	 */
+	private static final String REVISION_HASH = AbstractConfigurator.class.getPackage().getImplementationVersion();
+
+	/**
 	 * Получить путь по умолчанию для жендлера хэлло
 	 *
 	 * @return Путь по умолчанию для жендлера хэлло
@@ -44,8 +54,13 @@ public final class HelloHandler implements HttpHandler {
 	@Override
 	@SuppressWarnings({"PMD.LawOfDemeter"})
 	public void handleRequest(final HttpServerExchange exchange) throws Exception {
-		final StringBuilder response = new StringBuilder("Hello!\n\n");
-		response.append(configurator.toString());
+		final StringBuilder response = new StringBuilder(500);
+		response.append("Hello!\nName: ")
+			.append(SERVICE_NAME)
+			.append("\nVersion: ")
+			.append(REVISION_HASH)
+			.append("\n\n--------------------\nConfiguration:\n")
+			.append(configurator.toString());
 		exchange.getResponseSender().send(response.toString());
 	}
 }
