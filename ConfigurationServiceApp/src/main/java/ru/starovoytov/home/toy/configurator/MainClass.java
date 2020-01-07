@@ -33,7 +33,7 @@ public final class MainClass {
 	 */
 	private MainClass() {
 		service = new UndertowHttpService(Configurator.getInstance().getPort(), Configurator.getInstance()
-			.getHost(), new ArrayList<>());
+			.getHost(), new ArrayList<>(), Configurator.getInstance());
 	}
 
 	/**

@@ -1,8 +1,10 @@
 package ru.starovoytov.home.toy.common.libs.configuration;
 
 import org.junit.jupiter.api.Test;
+import ru.starovoytov.home.toy.common.libs.exceptions.ResourceException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static ru.starovoytov.home.toy.common.libs.resource.ResourceHelper.getFileContentFromResources;
 import static ru.starovoytov.home.toy.test.utils.TestUtils.setEnv;
 
 /**
@@ -18,6 +20,7 @@ class ConfiguratorTest {
 	 */
 	private static final String DEFAULT = "DEFAULT";
 	private static final String DEFAULT_VALUE = "defaultValue";
+	private static final String DEFAULT_KEY = "defaultKey";
 
 	/**
 	 * Получение значения по умолчанию
@@ -76,12 +79,38 @@ class ConfiguratorTest {
 	}
 
 	/**
+	 * Тест преобразования конфигуратора в строку
+	 *
+	 * @throws ResourceException ошибка обращения к ресурсу
+	 */
+	@Test
+	@SuppressWarnings({"PMD.LawOfDemeter"})
+	public void stringTest() throws ResourceException {
+		setEnv(DEFAULT_KEY + "1", "envKey1");
+		setEnv(DEFAULT_KEY + "2", "envKey2");
+		final TestConfigurator configurator = new TestConfigurator();
+		configurator.setFinalParameter("defaultKey1", "finalValue1");
+		configurator.getDefault();
+		configurator.getDefault1();
+		configurator.getDefault2();
+		configurator.getDefault3();
+		final String confString = getFileContentFromResources("/configuratorToString.txt");
+		final String resString = configurator.toString()
+			.substring(0, configurator.toString().indexOf("EnvValues:\n") + 10);
+		assertEquals(confString, resString, "Bad configurator string");
+	}
+
+	/**
 	 * Тестовый конфигуратор
 	 */
 	private static class TestConfigurator extends AbstractConfigurator {
 		@Override
 		protected void fillDefaultParameters() {
 			setDefaultParameter(DEFAULT, DEFAULT_VALUE);
+			setDefaultParameter(DEFAULT_KEY + "1", DEFAULT_VALUE + "1");
+			setDefaultParameter(DEFAULT_KEY + "2", DEFAULT_VALUE + "2");
+			setDefaultParameter(DEFAULT_KEY + "3", DEFAULT_VALUE + "3");
+			setDefaultParameter("SQL_PASSWORD", "123456");
 		}
 
 		public String getDefault() {
@@ -90,6 +119,18 @@ class ConfiguratorTest {
 
 		public void setDefault(final String value) {
 			setDefaultParameter(DEFAULT, value);
+		}
+
+		public String getDefault1() {
+			return getStringParameter(DEFAULT_KEY + "1");
+		}
+
+		public String getDefault2() {
+			return getStringParameter(DEFAULT_KEY + "2");
+		}
+
+		public String getDefault3() {
+			return getStringParameter(DEFAULT_KEY + "3");
 		}
 	}
 }

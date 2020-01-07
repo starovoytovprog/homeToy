@@ -3,6 +3,7 @@ package ru.starovoytov.home.toy.web.library;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import ru.starovoytov.home.toy.common.libs.configuration.AbstractConfigurator;
 import ru.starovoytov.home.toy.common.libs.exceptions.HttpClientException;
 import ru.starovoytov.home.toy.common.libs.http.HttpClientUtility;
 
@@ -29,7 +30,13 @@ class UndertowHttpServiceTest {
 	 */
 	@BeforeAll
 	public static void startService() {
-		service = new UndertowHttpService(SERVICE_PORT, "localhost", new ArrayList<>());
+		final AbstractConfigurator configurator = new AbstractConfigurator() {
+			@Override
+			protected void fillDefaultParameters() {
+			}
+		};
+
+		service = new UndertowHttpService(SERVICE_PORT, "localhost", new ArrayList<>(), configurator);
 		service.start();
 	}
 
