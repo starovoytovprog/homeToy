@@ -20,6 +20,7 @@ class ConfiguratorTest {
 	 */
 	private static final String DEFAULT = "DEFAULT";
 	private static final String DEFAULT_VALUE = "defaultValue";
+	private static final String DEFAULT_KEY = "defaultKey";
 
 	/**
 	 * Получение значения по умолчанию
@@ -84,7 +85,14 @@ class ConfiguratorTest {
 	 */
 	@Test
 	public void stringTest() throws ResourceException {
+		setEnv(DEFAULT_KEY + "1", "envKey1");
+		setEnv(DEFAULT_KEY + "2", "envKey2");
 		final TestConfigurator configurator = new TestConfigurator();
+		configurator.setFinalParameter("defaultKey1", "finalValue1");
+		configurator.getDefault();
+		configurator.getDefault1();
+		configurator.getDefault2();
+		configurator.getDefault3();
 		final String confString = getFileContentFromResources("/configuratorToString.txt");
 		assertEquals(confString, configurator.toString(), "Bad configurator string");
 	}
@@ -96,6 +104,9 @@ class ConfiguratorTest {
 		@Override
 		protected void fillDefaultParameters() {
 			setDefaultParameter(DEFAULT, DEFAULT_VALUE);
+			setDefaultParameter(DEFAULT_KEY + "1", DEFAULT_VALUE + "1");
+			setDefaultParameter(DEFAULT_KEY + "2", DEFAULT_VALUE + "2");
+			setDefaultParameter(DEFAULT_KEY + "3", DEFAULT_VALUE + "3");
 		}
 
 		public String getDefault() {
@@ -104,6 +115,18 @@ class ConfiguratorTest {
 
 		public void setDefault(final String value) {
 			setDefaultParameter(DEFAULT, value);
+		}
+
+		public String getDefault1() {
+			return getStringParameter(DEFAULT_KEY + "1");
+		}
+
+		public String getDefault2() {
+			return getStringParameter(DEFAULT_KEY + "2");
+		}
+
+		public String getDefault3() {
+			return getStringParameter(DEFAULT_KEY + "3");
 		}
 	}
 }

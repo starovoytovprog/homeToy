@@ -112,9 +112,37 @@ public abstract class AbstractConfigurator {
 	 */
 	@Override
 	public String toString() {
-		final StringBuilder stringBuilder = new StringBuilder("Configurator: ");
-		stringBuilder.append(this.getClass().toString());
+		final StringBuilder stringBuilder = new StringBuilder(500);
+		stringBuilder.append("Configurator: ")
+			.append(this.getClass().toString())
+			.append("\n\nDefaultValues:\n")
+			.append(mapToString(defaultParameters))
+			.append("\n\nFinalValues:\n")
+			.append(mapToString(finalParameters))
+			.append("\n\nActualValues:\n")
+			.append(mapToString(parameters));
 
 		return stringBuilder.toString();
+	}
+
+	/**
+	 * Формирование строки из мапы
+	 *
+	 * @param map мапа
+	 * @return строка
+	 */
+	private String mapToString(final Map<String, String> map) {
+		final StringBuilder builder = new StringBuilder();
+
+		for (final Map.Entry<String, String> entry : map.entrySet()) {
+			if (!builder.toString().isEmpty()) {
+				builder.append('\n');
+			}
+			builder.append(entry.getKey());
+			builder.append('=');
+			builder.append(entry.getValue());
+		}
+
+		return builder.toString();
 	}
 }

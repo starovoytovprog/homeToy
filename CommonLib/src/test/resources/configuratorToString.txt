@@ -1,1 +1,16 @@
 Configurator: class ru.starovoytov.home.toy.common.libs.configuration.ConfiguratorTest$TestConfigurator
+
+DefaultValues:
+defaultKey1=defaultValue1
+defaultKey2=defaultValue2
+defaultKey3=defaultValue3
+DEFAULT=defaultValue
+
+FinalValues:
+defaultKey1=finalValue1
+
+ActualValues:
+defaultKey1=finalValue1
+defaultKey2=envKey2
+defaultKey3=defaultValue3
+DEFAULT=defaultValue
