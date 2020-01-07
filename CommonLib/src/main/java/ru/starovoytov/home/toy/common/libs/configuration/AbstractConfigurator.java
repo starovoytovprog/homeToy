@@ -104,4 +104,17 @@ public abstract class AbstractConfigurator {
 	public void clearParameters() {
 		parameters.clear();
 	}
+
+	/**
+	 * Представление конфигурации в строке
+	 *
+	 * @return строка конфигурации
+	 */
+	@Override
+	public String toString() {
+		final StringBuilder stringBuilder = new StringBuilder("Configurator: ");
+		stringBuilder.append(this.getClass().toString());
+
+		return stringBuilder.toString();
+	}
 }

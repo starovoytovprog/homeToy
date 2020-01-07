@@ -56,16 +56,23 @@ public final class ResourceHelper {
 	 * @return контент ресурса
 	 * @throws ResourceException Ошибка пути к ресурсу
 	 */
-	@SuppressWarnings({"PMD.LawOfDemeter"})
+	@SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
 	public static String getFileContentFromResources(final String path) throws ResourceException {
 		try (InputStream inputStream = ResourceHelper.class.getResourceAsStream(path)) {
-			String content;
+			final StringBuilder content = new StringBuilder();
 			if (inputStream == null) {
 				throw new ResourceException(BAD_PATH + path, null);
 			} else {
-				content = new Scanner(inputStream, StandardCharsets.UTF_8.name()).useDelimiter("\\A").next();
+				try (Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8.name()).useDelimiter("\\A")) {
+					while (scanner.hasNext()) {
+						if (!content.toString().isEmpty()) {
+							content.append('\n');
+						}
+						content.append(scanner.next());
+					}
+				}
 			}
-			return content;
+			return content.toString();
 		} catch (IOException ex) {
 			throw new ResourceException(BAD_PATH + path, ex);
 		}

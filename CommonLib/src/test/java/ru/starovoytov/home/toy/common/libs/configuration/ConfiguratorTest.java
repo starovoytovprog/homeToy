@@ -1,8 +1,10 @@
 package ru.starovoytov.home.toy.common.libs.configuration;
 
 import org.junit.jupiter.api.Test;
+import ru.starovoytov.home.toy.common.libs.exceptions.ResourceException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static ru.starovoytov.home.toy.common.libs.resource.ResourceHelper.getFileContentFromResources;
 import static ru.starovoytov.home.toy.test.utils.TestUtils.setEnv;
 
 /**
@@ -73,6 +75,18 @@ class ConfiguratorTest {
 		configurator.clearParameters();
 		setEnv(DEFAULT_VALUE, "env value");
 		assertEquals("fixed", configurator.getDefault(), "Not fixed value");
+	}
+
+	/**
+	 * Тест преобразования конфигуратора в строку
+	 *
+	 * @throws ResourceException ошибка обращения к ресурсу
+	 */
+	@Test
+	public void stringTest() throws ResourceException {
+		final TestConfigurator configurator = new TestConfigurator();
+		final String confString = getFileContentFromResources("/configuratorToString.txt");
+		assertEquals(confString, configurator.toString(), "Bad configurator string");
 	}
 
 	/**

@@ -17,7 +17,7 @@ import static ru.starovoytov.home.toy.common.libs.resource.ResourceHelper.getFil
  * @author starovoytov
  * @since 2020.01.07
  */
-@SuppressWarnings({"PMD.AtLeastOneConstructor", "PMD.TooManyStaticImports"})
+@SuppressWarnings({"PMD.AtLeastOneConstructor", "PMD.TooManyStaticImports", "PMD.AvoidDuplicateLiterals"})
 class ResourceHelperTest {
 
 	/**
@@ -48,7 +48,7 @@ class ResourceHelperTest {
 	 */
 	@Test
 	public void fileContentFromResourcesTest() throws ResourceException {
-		assertEquals("Test resource content.", getFileContentFromResources("/test.txt"), "Bad resource content.");
+		assertEquals("Test resource content.\nNext line.", getFileContentFromResources("/test.txt"), "Bad resource content.");
 	}
 
 	/**
@@ -59,5 +59,16 @@ class ResourceHelperTest {
 	public void fileContentFromResourcesExceptionTest() {
 		final Exception exception = assertThrows(ResourceException.class, () -> getFileContentFromResources("test.txt"));
 		assertEquals("Bad path: test.txt", exception.getMessage(), "Bad exception message");
+	}
+
+	/**
+	 * Тест получения контента из путсого файла ресурсов
+	 *
+	 * @throws ResourceException Ошибка пути к ресурсу
+	 */
+	@Test
+	@SuppressWarnings({"PMD.LawOfDemeter", "PMD.JUnitTestContainsTooManyAsserts"})
+	public void fileContentEmptyFromResourcesTest() throws ResourceException {
+		assertEquals("", getFileContentFromResources("/emptyTest.txt"), "Bad resource content.");
 	}
 }
