@@ -3,8 +3,11 @@ package ru.starovoytov.home.toy.common.libs.cache;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Тест обновляемого кэша {@link AbstractUpdatedCache}
@@ -81,17 +84,69 @@ class UpdatedCacheTest {
 	}
 
 	/**
+	 * Тест автоматического обновления 1
+	 *
+	 * @throws InterruptedException прерывание
+	 */
+	@Test
+	@SuppressWarnings({"PMD.JUnitTestContainsTooManyAsserts"})
+	public void autoUpdate1Test() throws InterruptedException {
+		final CountDownLatch latch = new CountDownLatch(1);
+		final UpdatedCache testCache = new TestCache(latch, 1);
+		assertTrue(latch.await(500, TimeUnit.MILLISECONDS), "Don't await");
+		assertEquals(1, testCache.getEntity(), BAD_ENTITY);
+	}
+
+	/**
+	 * Тест автоматического обновления 2
+	 *
+	 * @throws InterruptedException прерывание
+	 */
+	@Test
+	@SuppressWarnings({"PMD.JUnitTestContainsTooManyAsserts"})
+	public void autoUpdate2Test() throws InterruptedException {
+		final CountDownLatch latch = new CountDownLatch(2);
+		final UpdatedCache testCache = new TestCache(latch, 1);
+		assertTrue(latch.await(500, TimeUnit.MILLISECONDS), "Don't await");
+		assertEquals(2, testCache.getEntity(), BAD_ENTITY);
+	}
+
+	/**
+	 * Тест автоматического обновления 3
+	 *
+	 * @throws InterruptedException прерывание
+	 */
+	@Test
+	@SuppressWarnings({"PMD.JUnitTestContainsTooManyAsserts"})
+	public void autoUpdate3Test() throws InterruptedException {
+		final CountDownLatch latch = new CountDownLatch(5);
+		final UpdatedCache testCache = new TestCache(latch, 1);
+		assertTrue(latch.await(500, TimeUnit.MILLISECONDS), "Don't await");
+		assertEquals(5, testCache.getEntity(), BAD_ENTITY);
+	}
+
+	/**
 	 * Кэш для тестов
 	 */
 	private static class TestCache extends AbstractUpdatedCache<Integer> {
+
+		private static final long ZERO = 0L;
 
 		/**
 		 * В тесте считается количество обновлений
 		 */
 		private transient int updateCount;
 
+		private final transient CountDownLatch latch;
+
 		private TestCache() {
 			super(-1, null);
+			this.latch = new CountDownLatch(500);
+		}
+
+		private TestCache(final CountDownLatch latch, final long interval) {
+			super(interval, null);
+			this.latch = latch;
 		}
 
 		@Override
@@ -100,7 +155,12 @@ class UpdatedCacheTest {
 
 		@Override
 		protected Integer getNewEntity() {
-			updateCount++;
+			if (latch != null) {
+				latch.countDown();
+			}
+			if (latch == null || latch.getCount() != ZERO) {
+				updateCount++;
+			}
 			return updateCount;
 		}
 	}
