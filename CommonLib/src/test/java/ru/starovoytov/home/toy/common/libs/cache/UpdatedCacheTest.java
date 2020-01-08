@@ -14,13 +14,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 @SuppressWarnings({"PMD.AtLeastOneConstructor"})
 class UpdatedCacheTest {
+
+	/**
+	 * Не верное значение в кэше
+	 */
+	private static final String BAD_ENTITY = "Bad entity in cache";
+
 	/**
 	 * Тест ручного обновления 1
 	 */
 	@Test
 	public void handleUpdate1Test() {
 		final TestCache testCache = new TestCache();
-		assertEquals(1, testCache.getEntity(), "Bad entity in cache");
+		assertEquals(1, testCache.getEntity(), BAD_ENTITY);
 	}
 
 	/**
@@ -30,7 +36,7 @@ class UpdatedCacheTest {
 	public void handleUpdate2Test() {
 		final TestCache testCache = new TestCache();
 		testCache.update();
-		assertEquals(1, testCache.getEntity(), "Bad entity in cache");
+		assertEquals(2, testCache.getEntity(), BAD_ENTITY);
 	}
 
 	/**
@@ -43,7 +49,35 @@ class UpdatedCacheTest {
 		for (int i = 0; i < 10; i++) {
 			testCache.update();
 		}
-		assertEquals(10, testCache.getEntity(), "Bad entity in cache");
+		assertEquals(11, testCache.getEntity(), BAD_ENTITY);
+	}
+
+	/**
+	 * Тест ручного обновления 5
+	 */
+	@Test
+	public void handleUpdate5Test() {
+		final UpdatedCache testCache = new TestCache();
+		assertEquals(1, testCache.getEntity(), BAD_ENTITY);
+	}
+
+	/**
+	 * Тест ручного обновления 6
+	 */
+	@Test
+	public void handleUpdate6Test() {
+		final UpdatedCache testCache = new TestCache();
+		testCache.update();
+		assertEquals(2, testCache.getEntity(), BAD_ENTITY);
+	}
+
+	/**
+	 * Тест ручного обновления 7
+	 */
+	@Test
+	public void handleUpdate7Test() {
+		final UpdatedCache testCache = new TestCache();
+		assertEquals("1", testCache.displayEntity(), BAD_ENTITY);
 	}
 
 	/**
@@ -58,7 +92,6 @@ class UpdatedCacheTest {
 
 		private TestCache() {
 			super(-1, null);
-			updateCount = 0;
 		}
 
 		@Override
