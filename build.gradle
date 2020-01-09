@@ -136,9 +136,18 @@ subprojects() {
 			}
 		}
 	}
+	task updateVersion() {
+		group = "publishing"
+
+		File file = new File(System.getenv("VERSION_FILE"))
+		file.delete()
+		file.append(version)
+		println file.text
+	}
 	task publishAll() {
 		group = "publishing"
 		dependsOn(jar)
 		dependsOn(publish)
+		dependsOn(updateVersion)
 	}
 }
