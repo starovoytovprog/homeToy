@@ -59,6 +59,8 @@ public final class HelloHandler implements HttpHandler {
 			.append(SERVICE_NAME)
 			.append("\nVersion: ")
 			.append(REVISION_HASH)
+			.append("\nStartTime: ")
+			.append(configurator.getStartTime())
 			.append("\n\n--------------------\nConfiguration:\n")
 			.append(configurator.toString());
 		exchange.getResponseSender().send(response.toString());

@@ -1,5 +1,7 @@
 package ru.starovoytov.home.toy.common.libs.configuration;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -29,6 +31,11 @@ public abstract class AbstractConfigurator {
 	 * Контейнер фиксированных параметров
 	 */
 	private final transient Map<String, String> finalParameters;
+
+	/**
+	 * Время инициации конфигуратора
+	 */
+	private static final String START_TIME = new SimpleDateFormat("YYYY.MM.dd HH:mm:ss", Locale.getDefault()).format(new Date());
 
 	/**
 	 * Конструктор по умолчанию
@@ -132,6 +139,15 @@ public abstract class AbstractConfigurator {
 			.append(mapToString(System.getenv()));
 
 		return stringBuilder.toString();
+	}
+
+	/**
+	 * Получить время инициации конфигуратора
+	 *
+	 * @return время инициации конфигуратора
+	 */
+	public String getStartTime() {
+		return START_TIME;
 	}
 
 	/**
