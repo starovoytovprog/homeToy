@@ -1,4 +1,4 @@
-package ru.starovoytov.home.toy.springboot.library.test;
+package ru.starovoytov.home.toy.springboot.library.controllers;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

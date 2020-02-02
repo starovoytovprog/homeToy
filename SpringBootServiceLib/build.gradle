@@ -6,7 +6,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-dependencies:' + springBootVersion
 	implementation 'org.springframework.boot:spring-boot-starter-web:' + springBootVersion
 	compile project(':CommonLib')
-	testCompile project(':SpringBootServiceTestLib')
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	components {
 		withModule('org.springframework:spring-beans') {
 			allVariants {

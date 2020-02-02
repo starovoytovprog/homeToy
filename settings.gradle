@@ -13,6 +13,5 @@ include ':CommonLib'
 include ':TestUtilsLib'
 include ':WebServiceLib'
 include ':SpringBootServiceLib'
-include ':SpringBootServiceTestLib'
 
 include ':ConfigurationServiceApp'
