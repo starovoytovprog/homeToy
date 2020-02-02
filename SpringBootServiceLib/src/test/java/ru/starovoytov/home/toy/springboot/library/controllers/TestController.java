@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2020.02.02
  */
 @RestController("/")
+@SuppressWarnings({"PMD.AtLeastOneConstructor"})
 public class TestController {
 	@GetMapping
 	public String helloGradle() {

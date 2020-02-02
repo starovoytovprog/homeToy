@@ -10,13 +10,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @since 2020.02.01
  */
 @SpringBootApplication
-public class App {
+@SuppressWarnings({"PMD.UseUtilityClass"})
+public class Application {
 	/**
 	 * Стартовый метод
 	 *
 	 * @param args аргументы
 	 */
-	public static void main(String[] args) {
-		SpringApplication.run(App.class, args);
+	public static void main(final String[] args) {
+		SpringApplication.run(Application.class, args);
 	}
 }

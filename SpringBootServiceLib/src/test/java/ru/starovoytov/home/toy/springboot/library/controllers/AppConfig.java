@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
  * @since 2020.02.02
  */
 @Configuration
+@SuppressWarnings({"PMD.AtLeastOneConstructor", "PMD.UseUtilityClass"})
 public class AppConfig {
 	@Bean(name = "Configurator")
 	public Configurator getConfigurator() {

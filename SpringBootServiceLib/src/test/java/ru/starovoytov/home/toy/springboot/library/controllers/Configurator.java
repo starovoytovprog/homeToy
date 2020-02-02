@@ -8,11 +8,12 @@ import ru.starovoytov.home.toy.common.libs.configuration.AbstractConfigurator;
  * @author starovoytov
  * @since 2020.02.02
  */
-public class Configurator extends AbstractConfigurator {
+public final class Configurator extends AbstractConfigurator {
 
 	private static final Configurator INSTANCE;
 
 	private Configurator() {
+		super();
 	}
 
 	static {

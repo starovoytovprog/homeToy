@@ -20,15 +20,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @since 2020.02.02
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = App.class)
+@SpringBootTest(classes = Application.class)
 @AutoConfigureMockMvc
+@SuppressWarnings({"PMD.AtLeastOneConstructor"})
 public class HelloControllerTest {
 	@Autowired
-	private MockMvc mvc;
+	private transient MockMvc mvc;
 
 	@Test
+	@SuppressWarnings({"PMD.LawOfDemeter", "PMD.SignatureDeclareThrowsException"})
 	public void helloController() throws Exception {
-		MvcResult result = mvc.perform(get("/hello")).andExpect(status().isOk()).andReturn();
-		assertTrue(result.getResponse().getContentAsString().contains("Hello!"));
+		final MvcResult result = mvc.perform(get("/hello")).andExpect(status().isOk()).andReturn();
+		assertTrue(result.getResponse().getContentAsString().contains("Hello!"), "Bad hello text");
 	}
 }

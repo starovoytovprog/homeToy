@@ -12,13 +12,14 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @SpringBootApplication
 @ComponentScan({"ru.starovoytov.home.toy.springboot.library.controllers", "ru.starovoytov.home.toy.configurator"})
-public class App {
+@SuppressWarnings({"PMD.UseUtilityClass"})
+public class Application {
 	/**
 	 * Стартовый метод
 	 *
 	 * @param args аргументы
 	 */
-	public static void main(String[] args) {
-		SpringApplication.run(App.class, args);
+	public static void main(final String[] args) {
+		SpringApplication.run(Application.class, args);
 	}
 }

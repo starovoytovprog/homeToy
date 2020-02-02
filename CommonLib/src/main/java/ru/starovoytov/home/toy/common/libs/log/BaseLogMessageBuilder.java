@@ -22,10 +22,6 @@ public class BaseLogMessageBuilder {
 	 * Поле для времени выполнения операции
 	 */
 	private static final String OPERATION_TIME = "operationTime";
-	/**
-	 * Поле для времени выполнения операции
-	 */
-	private static final String JSON_MESSAGE = "jsonMessage";
 
 	/**
 	 * Контейнер аргументов для создания сообщения

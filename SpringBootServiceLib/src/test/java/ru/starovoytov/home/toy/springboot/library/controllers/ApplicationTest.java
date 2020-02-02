@@ -13,19 +13,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Тест приложения для тестов SpringBoot {@link App}
+ * Тест приложения для тестов SpringBoot {@link Application}
  *
  * @author starovoytov
  * @since 2020.02.01
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = App.class)
+@SpringBootTest(classes = Application.class)
 @AutoConfigureMockMvc
-public class AppTest {
+@SuppressWarnings({"PMD.AtLeastOneConstructor"})
+public class ApplicationTest {
 	@Autowired
-	private MockMvc mvc;
+	private transient MockMvc mvc;
 
 	@Test
+	@SuppressWarnings({"PMD.LawOfDemeter", "PMD.SignatureDeclareThrowsException", "PMD.JUnitTestsShouldIncludeAssert"})
 	public void helloGradle() throws Exception {
 		mvc.perform(get("/")).andExpect(status().isOk()).andExpect(content().string("Hello Gradle!"));
 	}

@@ -16,11 +16,12 @@ import ru.starovoytov.home.toy.common.libs.configuration.AbstractConfigurator;
  */
 @RestController("/hello")
 @RequestMapping("hello")
+@SuppressWarnings({"PMD.AtLeastOneConstructor"})
 public class HelloController {
 
 	@Autowired
 	@Qualifier("Configurator")
-	private AbstractConfigurator configurator;
+	private transient AbstractConfigurator configurator;
 
 	/**
 	 * Имя сервиса
