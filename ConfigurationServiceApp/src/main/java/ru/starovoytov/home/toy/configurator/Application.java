@@ -5,8 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import ru.starovoytov.home.toy.configurator.configuration.Configurator;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Стартовый класс сервиса конфигурации
@@ -23,9 +23,10 @@ public class Application {
 	 *
 	 * @param args аргументы
 	 */
+	@SuppressWarnings({"PMD.LawOfDemeter"})
 	public static void main(final String[] args) {
 		final SpringApplication app = new SpringApplication(Application.class);
-		final Map<String, Object> properties = new HashMap<>();
+		final Map<String, Object> properties = new ConcurrentHashMap<>();
 		properties.put("server.port", Configurator.getInstance().getPort());
 		properties.put("server.host", Configurator.getInstance().getHost());
 		app.setDefaultProperties(properties);
