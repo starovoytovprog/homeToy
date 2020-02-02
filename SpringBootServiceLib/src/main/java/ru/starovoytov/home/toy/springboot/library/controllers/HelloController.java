@@ -2,6 +2,7 @@ package ru.starovoytov.home.toy.springboot.library.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,7 +32,7 @@ public class HelloController {
 	 */
 	private static final String REVISION_HASH = HelloController.class.getPackage().getImplementationVersion();
 
-	@GetMapping
+	@GetMapping(produces = MediaType.TEXT_PLAIN_VALUE)
 	public String helloGradle() {
 		return new StringBuilder(500).append("Hello!\nName: ")
 			.append(SERVICE_NAME)
