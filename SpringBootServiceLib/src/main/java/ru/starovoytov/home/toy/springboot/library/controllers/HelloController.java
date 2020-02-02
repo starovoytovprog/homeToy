@@ -21,8 +21,26 @@ public class HelloController {
 	@Qualifier("Configurator")
 	private AbstractConfigurator configurator;
 
+	/**
+	 * Имя сервиса
+	 */
+	private static final String SERVICE_NAME = HelloController.class.getPackage().getImplementationTitle();
+
+	/**
+	 * Версия сервиса
+	 */
+	private static final String REVISION_HASH = HelloController.class.getPackage().getImplementationVersion();
+
 	@GetMapping
 	public String helloGradle() {
-		return new StringBuilder("Hello!").toString();
+		return new StringBuilder(500).append("Hello!\nName: ")
+			.append(SERVICE_NAME)
+			.append("\nVersion: ")
+			.append(REVISION_HASH)
+			.append("\nStartTime: ")
+			.append(configurator.getStartTime())
+			.append("\n\n--------------------\nConfiguration:\n")
+			.append(configurator.toString())
+			.toString();
 	}
 }

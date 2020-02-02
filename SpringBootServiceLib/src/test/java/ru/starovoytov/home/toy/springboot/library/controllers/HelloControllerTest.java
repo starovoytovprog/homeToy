@@ -7,9 +7,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -27,6 +28,7 @@ public class HelloControllerTest {
 
 	@Test
 	public void helloController() throws Exception {
-		mvc.perform(get("/hello")).andExpect(status().isOk()).andExpect(content().string("Hello!"));
+		MvcResult result = mvc.perform(get("/hello")).andExpect(status().isOk()).andReturn();
+		assertTrue(result.getResponse().getContentAsString().contains("Hello!"));
 	}
 }
