@@ -9,4 +9,5 @@ ext {
 	log4jVersion = '2.13.0'
 	jacksonVersion = '2.10.1'
 	disruptorVersion = '3.4.2'
+	springBootVersion = '2.2.4.RELEASE'
 }

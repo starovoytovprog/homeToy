@@ -1,9 +1,5 @@
 package ru.starovoytov.home.toy.common.libs.log;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,20 +22,12 @@ public class BaseLogMessageBuilder {
 	 * Поле для времени выполнения операции
 	 */
 	private static final String OPERATION_TIME = "operationTime";
-	/**
-	 * Поле для времени выполнения операции
-	 */
-	private static final String JSON_MESSAGE = "jsonMessage";
 
 	/**
 	 * Контейнер аргументов для создания сообщения
 	 */
 	@SuppressWarnings({"PMD.UseConcurrentHashMap"})
 	private final transient Map<String, Object> arguments = new HashMap<>();
-	/**
-	 * Маппер для работы с объектами json
-	 */
-	private final transient ObjectMapper mapper = new ObjectMapper();
 
 	/**
 	 * Инициализация строителя сообщений
@@ -93,27 +81,11 @@ public class BaseLogMessageBuilder {
 	}
 
 	/**
-	 * Добавляем текст json-сообщения
-	 *
-	 * @param msg json-сообщение
-	 * @return Построитель сообщений
-	 */
-	public BaseLogMessageBuilder addJsonMessage(final JsonNode msg) {
-		arguments.put(JSON_MESSAGE, msg);
-		return this;
-	}
-
-	/**
 	 * Получить сообщение
 	 *
 	 * @return Сообщение лога или сообщение о проблеме с конвертацией JSON.
 	 */
-	@SuppressWarnings({"PMD.OnlyOneReturn", "PMD.LawOfDemeter"})
 	public String build() {
-		try {
-			return mapper.writer().writeValueAsString(arguments);
-		} catch (JsonProcessingException ex) {
-			return "{\"msg\":\"" + ex.getMessage() + "\", \"error\": \"Logging format error\"}";
-		}
+		return arguments.toString();
 	}
 }
