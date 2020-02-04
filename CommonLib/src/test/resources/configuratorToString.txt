@@ -12,6 +12,7 @@ defaultKey2=defaultValue2
 defaultKey3=defaultValue3
 SQL_PASSWORD=***
 DEFAULT=defaultValue
+int=10
 
 FinalValues:
 defaultKey1=finalValue1

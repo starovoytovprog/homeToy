@@ -34,19 +34,27 @@ public final class UidGeneratorHelper {
 	public static String getNewUid() throws UidGenerationException {
 		long rand = (long) (Math.random() * 1_000_000_000);
 		rand *= TIME_MARKER.incrementAndGet() * System.currentTimeMillis();
-		return hashUid(Long.toString(rand));
+		return hashUid(Long.toString(rand), "SHA-1");
 	}
 
+	/**
+	 * Хеширование идентификатора
+	 *
+	 * @param uid       идентификатор
+	 * @param algorithm алгоритм хеширования
+	 * @return захешированный идентификатор
+	 * @throws UidGenerationException ошибка при выполнении операции
+	 */
 	@SuppressWarnings({"PMD.LawOfDemeter"})
-	private static String hashUid(final String uid) throws UidGenerationException {
+	public static String hashUid(final String uid, final String algorithm) throws UidGenerationException {
 		try {
-			final MessageDigest msdDigest = MessageDigest.getInstance("SHA-1");
+			final MessageDigest msdDigest = MessageDigest.getInstance(algorithm);
 			msdDigest.update(uid.getBytes(StandardCharsets.UTF_8), 0, uid.length());
 			final String sha1 = DatatypeConverter.printHexBinary(msdDigest.digest());
 			return new String(Base64.getEncoder()
 				                  .encode(sha1.getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8);
 		} catch (NoSuchAlgorithmException e) {
-			throw new UidGenerationException("", e);
+			throw new UidGenerationException("Bad algorithm", e);
 		}
 	}
 }

@@ -23,6 +23,24 @@ class ConfiguratorTest {
 	private static final String DEFAULT_KEY = "defaultKey";
 
 	/**
+	 * Получение числового значения
+	 */
+	@Test
+	public void intParameterTest() {
+		final TestConfigurator configurator = new TestConfigurator();
+		assertEquals(10, configurator.getInt(), "Not int value");
+	}
+
+	/**
+	 * Получение пустого значения
+	 */
+	@Test
+	public void nullParameterTest() {
+		final TestConfigurator configurator = new TestConfigurator();
+		assertEquals(null, configurator.getNull(), "Not null value");
+	}
+
+	/**
 	 * Получение значения по умолчанию
 	 */
 	@Test
@@ -111,6 +129,15 @@ class ConfiguratorTest {
 			setDefaultParameter(DEFAULT_KEY + "2", DEFAULT_VALUE + "2");
 			setDefaultParameter(DEFAULT_KEY + "3", DEFAULT_VALUE + "3");
 			setDefaultParameter("SQL_PASSWORD", "123456");
+			setDefaultParameter("int", "10");
+		}
+
+		public int getInt() {
+			return getIntParameter("int");
+		}
+
+		public String getNull() {
+			return getStringParameter("null parameter");
 		}
 
 		public String getDefault() {
