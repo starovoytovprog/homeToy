@@ -44,7 +44,7 @@ public final class TestUtils {
 	 * @return результат поиска
 	 */
 	@SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "PMD.AvoidInstantiatingObjectsInLoops"})
-	private static int getFreePort(final int startPort) {
+	public static int getFreePort(final int startPort) {
 		int startPortLocal = startPort;
 		while (true) {
 			try {
