@@ -22,11 +22,6 @@ dependencies {
 jar {
 	dependsOn(bootJar)
 	archiveBaseName = project.name
-	manifest {
-		attributes "Main-Class": mainClassName
-		attributes "Implementation-Version": revision.shortV
-		attributes "Implementation-Title": project.name
-	}
 	from {
 		configurations.compile.collect {
 			it.isDirectory() ? it : zipTree(it)
@@ -36,4 +31,10 @@ jar {
 		}
 	}
 	exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
+}
+bootJar {
+	manifest {
+		attributes "Implementation-Version": revision.shortV
+		attributes "Implementation-Title": project.name
+	}
 }
