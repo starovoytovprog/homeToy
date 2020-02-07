@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -32,5 +33,11 @@ public class ApplicationTest {
 	public void helloController() throws Exception {
 		final MvcResult result = mvc.perform(get("/hello")).andExpect(status().isOk()).andReturn();
 		assertTrue(result.getResponse().getContentAsString().contains("Hello!"), "Bad hello text");
+	}
+
+	@Test
+	@SuppressWarnings({"PMD.LawOfDemeter", "PMD.SignatureDeclareThrowsException", "PMD.JUnitTestsShouldIncludeAssert"})
+	public void testGetController() throws Exception {
+		mvc.perform(get("/get/value?name=test")).andExpect(status().isOk()).andExpect(content().string("test"));
 	}
 }
