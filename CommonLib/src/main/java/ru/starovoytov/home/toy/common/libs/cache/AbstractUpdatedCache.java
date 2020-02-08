@@ -1,9 +1,16 @@
 package ru.starovoytov.home.toy.common.libs.cache;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import ru.starovoytov.home.toy.common.libs.exceptions.UpdateCacheException;
+import ru.starovoytov.home.toy.common.libs.log.CommonLogMessageBuilder;
+
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicReference;
+
+import static ru.starovoytov.home.toy.common.libs.log.MarkersHelper.UPDATE_CACHE;
 
 /**
  * Обновляемый кэш
@@ -12,6 +19,8 @@ import java.util.concurrent.atomic.AtomicReference;
  * @since 2020.01.08
  */
 public abstract class AbstractUpdatedCache<T> implements UpdatedCache<T> {
+
+	private static final Logger LOGGER = LogManager.getLogger(AbstractUpdatedCache.class);
 
 	/**
 	 * Граница, ниже которой таймер не инициализуется
@@ -53,8 +62,14 @@ public abstract class AbstractUpdatedCache<T> implements UpdatedCache<T> {
 
 	@Override
 	public final void update() {
-		final T newEntity = getNewEntity();
-		entity.set(newEntity);
+		try {
+			final T newEntity = getNewEntity();
+			entity.set(newEntity);
+		} catch (UpdateCacheException ex) {
+			LOGGER.error(UPDATE_CACHE, () -> CommonLogMessageBuilder.create()
+				.addMsg("Ошибка обновления кэша")
+				.build(), ex);
+		}
 	}
 
 	@Override
@@ -74,8 +89,9 @@ public abstract class AbstractUpdatedCache<T> implements UpdatedCache<T> {
 	 * Получить новый экземпляр
 	 *
 	 * @return новый экземпляр
+	 * @throws UpdateCacheException ошибка обновления кэша
 	 */
-	protected abstract T getNewEntity();
+	protected abstract T getNewEntity() throws UpdateCacheException;
 
 	/**
 	 * Загрузить первоначальное значение кэша и запустить таймер обновления
