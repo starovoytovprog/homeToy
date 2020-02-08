@@ -1,5 +1,7 @@
 package ru.starovoytov.home.toy.configurator.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("get/value")
 @SuppressWarnings({"PMD.AtLeastOneConstructor"})
 public class GetParameterController {
+
+	@Autowired
+	@Qualifier("ParametersCache")
+	private transient ParametersCache parametersCache;
+
 	/**
 	 * Получить значение параметра
 	 *
@@ -23,6 +30,6 @@ public class GetParameterController {
 	 */
 	@GetMapping(produces = MediaType.TEXT_PLAIN_VALUE)
 	public String helloGradle(final String name) {
-		return name;
+		return parametersCache != null ? name : null;
 	}
 }

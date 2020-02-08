@@ -7,6 +7,5 @@ package ru.starovoytov.home.toy.configurator.configuration;
  * @since 2019.12.20
  */
 public class ConfigurationParametersHelper {
-	public static final String PORT = "PORT";
-	public static final String HOST = "HOST";
+	public static final String PROPERTY_FILE = "PROPERTY_FILE";
 }

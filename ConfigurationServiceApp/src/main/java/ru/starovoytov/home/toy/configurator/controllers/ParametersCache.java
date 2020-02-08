@@ -32,7 +32,7 @@ public class ParametersCache extends AbstractUpdatedCache<Properties> {
 	 * @param updateInterval интервал автоматического обновления кэша
 	 * @param params         дополнительные параметры
 	 */
-	protected ParametersCache(final long updateInterval, final Map<String, Object> params) {
+	public ParametersCache(final long updateInterval, final Map<String, Object> params) {
 		super(updateInterval, params);
 	}
 
