@@ -19,6 +19,8 @@ import java.util.Properties;
  */
 public class ParametersCache extends AbstractUpdatedCache<Properties> {
 
+	public static final String FILE_NAME = "FILE_NAME";
+
 	/**
 	 * Путь к файлу свойств
 	 */
@@ -37,12 +39,18 @@ public class ParametersCache extends AbstractUpdatedCache<Properties> {
 	@Override
 	@SuppressWarnings({"PMD.LawOfDemeter"})
 	protected void setParams(final Map<String, Object> params) {
-		this.propertyFile = Paths.get(params.get("propertyFile").toString());
+		if (params.get(FILE_NAME) != null) {
+			this.propertyFile = Paths.get(params.get(FILE_NAME).toString());
+		}
 	}
 
 	@Override
 	@SuppressWarnings({"PMD.LawOfDemeter"})
 	protected Properties getNewEntity() throws UpdateCacheException {
+		if (propertyFile == null) {
+			throw new UpdateCacheException("Не задан файл параметров: " + ParametersCache.class.getCanonicalName(), null);
+		}
+
 		final Properties properties = new Properties();
 		try (InputStream inputStream = Files.newInputStream(propertyFile)) {
 			properties.load(inputStream);
