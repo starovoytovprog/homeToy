@@ -1,6 +1,7 @@
 package ru.starovoytov.home.toy.common.libs.cache;
 
 import org.junit.jupiter.api.Test;
+import ru.starovoytov.home.toy.common.libs.exceptions.UpdateCacheException;
 
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
@@ -15,13 +16,18 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author starovoytov
  * @since 2020.01.08
  */
-@SuppressWarnings({"PMD.AtLeastOneConstructor"})
+@SuppressWarnings({"PMD.AtLeastOneConstructor", "PMD.AvoidDuplicateLiterals"})
 class UpdatedCacheTest {
 
 	/**
 	 * Не верное значение в кэше
 	 */
 	private static final String BAD_ENTITY = "Bad entity in cache";
+
+	/**
+	 * Превышение времени ожидания
+	 */
+	private static final String DO_NOT_AWAY = "Don't away";
 
 	/**
 	 * Тест ручного обновления 1
@@ -93,7 +99,7 @@ class UpdatedCacheTest {
 	public void autoUpdate1Test() throws InterruptedException {
 		final CountDownLatch latch = new CountDownLatch(1);
 		final UpdatedCache testCache = new TestCache(latch, 1);
-		assertTrue(latch.await(500, TimeUnit.MILLISECONDS), "Don't await");
+		assertTrue(latch.await(500, TimeUnit.MILLISECONDS), DO_NOT_AWAY);
 		assertEquals(1, testCache.getEntity(), BAD_ENTITY);
 	}
 
@@ -107,7 +113,7 @@ class UpdatedCacheTest {
 	public void autoUpdate2Test() throws InterruptedException {
 		final CountDownLatch latch = new CountDownLatch(2);
 		final UpdatedCache testCache = new TestCache(latch, 1);
-		assertTrue(latch.await(500, TimeUnit.MILLISECONDS), "Don't await");
+		assertTrue(latch.await(500, TimeUnit.MILLISECONDS), DO_NOT_AWAY);
 		assertEquals(2, testCache.getEntity(), BAD_ENTITY);
 	}
 
@@ -121,8 +127,22 @@ class UpdatedCacheTest {
 	public void autoUpdate3Test() throws InterruptedException {
 		final CountDownLatch latch = new CountDownLatch(5);
 		final UpdatedCache testCache = new TestCache(latch, 1);
-		assertTrue(latch.await(500, TimeUnit.MILLISECONDS), "Don't await");
+		assertTrue(latch.await(500, TimeUnit.MILLISECONDS), DO_NOT_AWAY);
 		assertEquals(5, testCache.getEntity(), BAD_ENTITY);
+	}
+
+	/**
+	 * Тест автоматического обновления 4
+	 *
+	 * @throws InterruptedException прерывание
+	 */
+	@Test
+	@SuppressWarnings({"PMD.JUnitTestContainsTooManyAsserts"})
+	public void autoUpdate4Test() throws InterruptedException {
+		final CountDownLatch latch = new CountDownLatch(20);
+		final UpdatedCache testCache = new TestCache(latch, 1);
+		assertTrue(latch.await(500, TimeUnit.MILLISECONDS), DO_NOT_AWAY);
+		assertEquals(15, testCache.getEntity(), BAD_ENTITY);
 	}
 
 	/**
@@ -154,11 +174,15 @@ class UpdatedCacheTest {
 		}
 
 		@Override
-		protected Integer getNewEntity() {
+		@SuppressWarnings({"PMD.AvoidLiteralsInIfCondition"})
+		protected Integer getNewEntity() throws UpdateCacheException {
 			if (latch != null) {
 				latch.countDown();
 			}
 			if (latch == null || latch.getCount() != ZERO) {
+				if (updateCount == 15) {
+					throw new UpdateCacheException("test exception", null);
+				}
 				updateCount++;
 			}
 			return updateCount;

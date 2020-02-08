@@ -12,17 +12,7 @@ import org.apache.logging.log4j.MarkerManager;
 @SuppressWarnings({"PMD.LongVariable"})
 public class MarkersHelper {
 	/**
-	 * Маркер http-клиента
+	 * Маркер обновления кэша
 	 */
-	public static final Marker HTTP_CLIENT = MarkerManager.getMarker("HTTP_CLIENT");
-
-	/**
-	 * Маркер отправка запроса http-клиентом
-	 */
-	public static final Marker HTTP_CLIENT_REQUEST = MarkerManager.getMarker("HTTP_CLIENT_REQUEST");
-
-	/**
-	 * Маркер отправка запроса http-клиентом
-	 */
-	public static final Marker HTTP_CLIENT_RESPONSE = MarkerManager.getMarker("HTTP_CLIENT_RESPONSE");
+	public static final Marker UPDATE_CACHE = MarkerManager.getMarker("UPDATE_CACHE");
 }

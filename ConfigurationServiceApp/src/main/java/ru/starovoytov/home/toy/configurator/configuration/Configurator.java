@@ -2,8 +2,9 @@ package ru.starovoytov.home.toy.configurator.configuration;
 
 import ru.starovoytov.home.toy.common.libs.configuration.AbstractConfigurator;
 
-import static ru.starovoytov.home.toy.configurator.configuration.ConfigurationParametersHelper.HOST;
-import static ru.starovoytov.home.toy.configurator.configuration.ConfigurationParametersHelper.PORT;
+import static ru.starovoytov.home.toy.common.libs.configuration.ConfigurationParametersHelper.HOST;
+import static ru.starovoytov.home.toy.common.libs.configuration.ConfigurationParametersHelper.PORT;
+import static ru.starovoytov.home.toy.configurator.configuration.ConfigurationParametersHelper.PROPERTY_FILE;
 
 /**
  * Конфигуратор сервиса
@@ -38,6 +39,7 @@ public final class Configurator extends AbstractConfigurator {
 	protected void fillDefaultParameters() {
 		setDefaultParameter(PORT, "10000");
 		setDefaultParameter(HOST, "localhost");
+		setDefaultParameter(PROPERTY_FILE, "default.properties");
 	}
 
 	/**
@@ -56,5 +58,14 @@ public final class Configurator extends AbstractConfigurator {
 	 */
 	public int getPort() {
 		return getIntParameter(PORT);
+	}
+
+	/**
+	 * Получить путь к файлу параметров
+	 *
+	 * @return путь к файлу параметров
+	 */
+	public String getParametersFile() {
+		return getStringParameter(PROPERTY_FILE);
 	}
 }
