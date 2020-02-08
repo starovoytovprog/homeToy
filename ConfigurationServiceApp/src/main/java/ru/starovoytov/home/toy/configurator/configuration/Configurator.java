@@ -39,7 +39,7 @@ public final class Configurator extends AbstractConfigurator {
 	protected void fillDefaultParameters() {
 		setDefaultParameter(PORT, "10000");
 		setDefaultParameter(HOST, "localhost");
-		setDefaultParameter(HOST, "default.properties");
+		setDefaultParameter(PROPERTY_FILE, "default.properties");
 	}
 
 	/**
