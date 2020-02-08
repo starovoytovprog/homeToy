@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Properties;
+
 /**
  * Контроллер получения значения параметра
  *
@@ -29,7 +31,15 @@ public class GetParameterController {
 	 * @return значение параметра
 	 */
 	@GetMapping(produces = MediaType.TEXT_PLAIN_VALUE)
-	public String helloGradle(final String name) {
-		return parametersCache != null ? name : null;
+	@SuppressWarnings({"PMD.DataflowAnomalyAnalysis"})
+	public String getProperty(final String name) {
+		String property = "";
+		final Properties properties = parametersCache.getEntity();
+
+		if (properties != null) {
+			property = properties.getProperty(name);
+		}
+
+		return property;
 	}
 }
