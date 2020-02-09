@@ -32,7 +32,9 @@ public class AppConfig {
 	/**
 	 * Класс для теста кэша
 	 */
-	private static class TestCache implements UpdatedCache {
+	public static class TestCache implements UpdatedCache {
+		private transient boolean updated;
+
 		@Override
 		public Object getEntity() {
 			return "ok";
@@ -40,12 +42,17 @@ public class AppConfig {
 
 		@Override
 		public void update() {
+			updated = true;
 		}
 
 		@Override
 		@SuppressWarnings({"PMD.LawOfDemeter"})
 		public String displayEntity() {
 			return getEntity().toString();
+		}
+
+		public boolean isUpdated() {
+			return updated;
 		}
 	}
 }
