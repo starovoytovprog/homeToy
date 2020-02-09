@@ -11,15 +11,6 @@ public class BaseException extends Exception {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Конструктор с сообщением о ошибке
-	 *
-	 * @param message сообщение
-	 */
-	public BaseException(final String message) {
-		super(message);
-	}
-
-	/**
 	 * Конструктор с сообщением о ошибке и причиной
 	 *
 	 * @param message сообщение
