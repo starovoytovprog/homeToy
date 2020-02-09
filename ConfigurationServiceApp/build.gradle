@@ -1,13 +1,13 @@
 plugins {
 	id 'application'
 	id 'org.springframework.boot' version '2.0.5.RELEASE'
-	id 'io.spring.dependency-management' version '1.0.7.RELEASE'
 }
 mainClassName = 'ru.starovoytov.home.toy.configurator.Application'
 dependencies {
 	compile project(':SpringBootServiceLib')
+
 	testCompile project(':TestUtilsLib')
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test:' + springBootVersion
 	components {
 		withModule('org.springframework:spring-beans') {
 			allVariants {
@@ -34,7 +34,7 @@ jar {
 }
 bootJar {
 	manifest {
-		attributes "Implementation-Version": revision.shortV
+		attributes "Implementation-Version": revision.longV
 		attributes "Implementation-Title": project.name
 	}
 }

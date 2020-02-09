@@ -1,11 +1,9 @@
 package ru.starovoytov.home.toy.configurator;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import ru.starovoytov.home.toy.common.libs.exceptions.ResourceException;
@@ -24,7 +22,6 @@ import static ru.starovoytov.home.toy.configurator.configuration.ConfigurationPa
  * @author starovoytov
  * @since 2019.12.21
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 @AutoConfigureMockMvc
 @SuppressWarnings({"PMD.AtLeastOneConstructor", "PMD.TooManyStaticImports", "PMD.AvoidPrintStackTrace"})
