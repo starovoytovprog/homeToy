@@ -24,7 +24,7 @@ class ParametersCacheTest {
 	public void testBadFile1() {
 		final Map<String, Object> params = new HashMap<>();
 		final ParametersCache parametersCache = new ParametersCache(0, params);
-		assertEquals(123, parametersCache.getEntity(), "Not null value");
+		assertEquals(null, parametersCache.getEntity(), "Not null value");
 	}
 
 	/**
