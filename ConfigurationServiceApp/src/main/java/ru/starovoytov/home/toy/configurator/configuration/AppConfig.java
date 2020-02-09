@@ -2,6 +2,7 @@ package ru.starovoytov.home.toy.configurator.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import ru.starovoytov.home.toy.common.libs.cache.UpdatedCache;
 import ru.starovoytov.home.toy.configurator.controllers.ParametersCache;
 
 import java.util.HashMap;
@@ -33,5 +34,12 @@ public class AppConfig {
 	@Bean(name = "ParametersCache")
 	public ParametersCache getParametersCache() {
 		return PARAMETERS_CACHE;
+	}
+
+	@Bean(name = "Caches")
+	public Map<String, UpdatedCache> getCaches() {
+		final Map<String, UpdatedCache> caches = new HashMap<>();
+		caches.put("parametersCache", getParametersCache());
+		return caches;
 	}
 }
