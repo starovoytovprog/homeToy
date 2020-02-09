@@ -30,7 +30,7 @@ def Version getRevision()
 {
 	String currentDate = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
 	String shortBuf = getGitBranch() + "-" + currentDate;
-	String longBuf = "Build date: \"" + currentDate + "\"; Branch name: \"" + getGitBranch() + "\"; CommitHash: \"" + getGitHash() + "\"";
+	String longBuf = "Build date = \"" + currentDate + "\"; Branch name = \"" + getGitBranch() + "\"; CommitHash = \"" + getGitHash() + "\""
 	return new Version(longV: longBuf, shortV: shortBuf)
 }
 ext {
