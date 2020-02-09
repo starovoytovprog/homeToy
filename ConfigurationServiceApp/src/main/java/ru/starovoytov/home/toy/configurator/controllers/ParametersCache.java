@@ -10,6 +10,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Properties;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static ru.starovoytov.home.toy.common.libs.helpers.MapHelper.mapToString;
 
 /**
  * Кэш параметров
@@ -34,6 +38,17 @@ public class ParametersCache extends AbstractUpdatedCache<Properties> {
 	 */
 	public ParametersCache(final long updateInterval, final Map<String, Object> params) {
 		super(updateInterval, params);
+	}
+
+	@Override
+	@SuppressWarnings({"PMD.LawOfDemeter"})
+	public String displayEntity() {
+		final Stream<Map.Entry<Object, Object>> stream = getEntity().entrySet().stream();
+		final Map<String, String> mapOfProperties = stream.collect(Collectors.toMap(e -> String.valueOf(e.getKey()), e -> String
+			.valueOf(e.getValue())));
+		final StringBuilder builder = new StringBuilder().append("Parameters:\n\n")
+			.append(mapToString(mapOfProperties));
+		return builder.toString();
 	}
 
 	@Override

@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import static ru.starovoytov.home.toy.common.libs.helpers.MapHelper.mapToString;
+
 /**
  * Конфигуратор
  *
@@ -13,12 +15,6 @@ import java.util.Map;
  * @since 2019.12.20
  */
 public abstract class AbstractConfigurator {
-
-	/**
-	 * Ключ, оозначающий параметр-пароль
-	 */
-	private static final String PASSWORD_KEY = "password";
-
 	/**
 	 * Контейнер параметров
 	 */
@@ -148,31 +144,5 @@ public abstract class AbstractConfigurator {
 	 */
 	public String getStartTime() {
 		return START_TIME;
-	}
-
-	/**
-	 * Формирование строки из мапы
-	 *
-	 * @param map мапа
-	 * @return строка
-	 */
-	@SuppressWarnings({"PMD.LawOfDemeter"})
-	private String mapToString(final Map<String, String> map) {
-		final StringBuilder builder = new StringBuilder();
-
-		for (final Map.Entry<String, String> entry : map.entrySet()) {
-			if (!builder.toString().isEmpty()) {
-				builder.append('\n');
-			}
-			builder.append(entry.getKey());
-			builder.append('=');
-			if (entry.getKey().toLowerCase(Locale.getDefault()).contains(PASSWORD_KEY)) {
-				builder.append("***");
-			} else {
-				builder.append(entry.getValue());
-			}
-		}
-
-		return builder.toString();
 	}
 }
