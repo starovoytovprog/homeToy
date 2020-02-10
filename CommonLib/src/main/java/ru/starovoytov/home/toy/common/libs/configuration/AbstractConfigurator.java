@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import static ru.starovoytov.home.toy.common.libs.configuration.ConfigurationParametersHelper.CONF_SERVICE_ADDRESS;
+import static ru.starovoytov.home.toy.common.libs.configuration.ConfigurationServiceHelper.getValueFromService;
 import static ru.starovoytov.home.toy.common.libs.helpers.MapHelper.mapToString;
 
 /**
@@ -80,7 +82,7 @@ public abstract class AbstractConfigurator {
 	 * @param key ключ
 	 * @return значение
 	 */
-	@SuppressWarnings({"PMD.LawOfDemeter"})
+	@SuppressWarnings({"PMD.LawOfDemeter", "PMD.CyclomaticComplexity"})
 	protected String getStringParameter(final String key) {
 		String value = parameters.get(key);
 		if (value == null) {
@@ -93,6 +95,13 @@ public abstract class AbstractConfigurator {
 			value = System.getenv().get(key);
 			if (value != null) {
 				parameters.put(key, value);
+			}
+		}
+		if (value == null && !CONF_SERVICE_ADDRESS.equals(key)) {
+			value = getValueFromService(key, getStringParameter(CONF_SERVICE_ADDRESS));
+			if (value != null) {
+				parameters.put(key, value);
+				configurationServiceParameters.put(key, value);
 			}
 		}
 		if (value == null) {
