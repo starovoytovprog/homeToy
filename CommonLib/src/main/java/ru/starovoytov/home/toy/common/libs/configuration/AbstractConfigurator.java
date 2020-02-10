@@ -27,6 +27,11 @@ public abstract class AbstractConfigurator {
 	 * Контейнер фиксированных параметров
 	 */
 	private final transient Map<String, String> finalParameters;
+	/**
+	 * Контейнер параметров, загруженных из сервиса конфигурации
+	 */
+	@SuppressWarnings({"PMD.LongVariable"})
+	private final transient Map<String, String> configurationServiceParameters;
 
 	/**
 	 * Время инициации конфигуратора
@@ -40,6 +45,7 @@ public abstract class AbstractConfigurator {
 		this.parameters = new HashMap<>();
 		this.defaultParameters = new HashMap<>();
 		this.finalParameters = new HashMap<>();
+		this.configurationServiceParameters = new HashMap<>();
 		fillDefaultParameters();
 	}
 
@@ -131,6 +137,8 @@ public abstract class AbstractConfigurator {
 			.append(mapToString(defaultParameters))
 			.append("\n\nFinalValues:\n")
 			.append(mapToString(finalParameters))
+			.append("\n\nConfigurationServiceParameters:\n")
+			.append(mapToString(configurationServiceParameters))
 			.append("\n\nEnvValues:\n")
 			.append(mapToString(System.getenv()));
 
