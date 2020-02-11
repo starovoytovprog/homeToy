@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Тест кэша параметров
@@ -24,7 +25,7 @@ class ParametersCacheTest {
 	public void testBadFile1() {
 		final Map<String, Object> params = new HashMap<>();
 		final ParametersCache parametersCache = new ParametersCache(0, params);
-		assertEquals(null, parametersCache.getEntity(), "Not null value");
+		assertNull(parametersCache.getEntity(), "Not null value");
 	}
 
 	/**
@@ -35,7 +36,7 @@ class ParametersCacheTest {
 		final Map<String, Object> params = new HashMap<>();
 		params.put(ParametersCache.FILE_NAME, "It's bad file name");
 		final ParametersCache parametersCache = new ParametersCache(0, params);
-		assertEquals(null, parametersCache.getEntity(), "Not null value");
+		assertNull(parametersCache.getEntity(), "Not null value");
 	}
 
 	/**

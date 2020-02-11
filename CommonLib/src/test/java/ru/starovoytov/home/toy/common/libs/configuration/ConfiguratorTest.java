@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import ru.starovoytov.home.toy.common.libs.exceptions.ResourceException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static ru.starovoytov.home.toy.common.libs.resource.ResourceHelper.getFileContentFromResources;
 import static ru.starovoytov.home.toy.test.utils.TestUtils.setEnv;
 
@@ -37,7 +38,7 @@ class ConfiguratorTest {
 	@Test
 	public void nullParameterTest() {
 		final TestConfigurator configurator = new TestConfigurator();
-		assertEquals(null, configurator.getNull(), "Not null value");
+		assertNull(configurator.getNull(), "Not null value");
 	}
 
 	/**

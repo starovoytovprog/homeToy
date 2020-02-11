@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.starovoytov.home.toy.common.libs.http.RequestHelper.httpEmptyGet;
 import static ru.starovoytov.home.toy.common.libs.http.RequestHelper.sendEmptyGetRequest;
@@ -58,7 +59,7 @@ class RequestHelperTest {
 	@SuppressWarnings({"PMD.JUnitTestContainsTooManyAsserts", "PMD.LawOfDemeter"})
 	public void badAddressTest2() {
 		final String response = httpEmptyGet("bad address", TEST_UID);
-		assertEquals(null, response, "Not null message");
+		assertNull(response, "Not null message");
 	}
 
 	/**
@@ -68,7 +69,7 @@ class RequestHelperTest {
 	@SuppressWarnings({"PMD.JUnitTestContainsTooManyAsserts", "PMD.LawOfDemeter"})
 	public void badHandler() {
 		final String response = httpEmptyGet("http://localhost:" + SERVICE_PORT + "/bad", TEST_UID);
-		assertEquals(null, response, "Not null message");
+		assertNull(response, "Not null message");
 	}
 
 	/**
