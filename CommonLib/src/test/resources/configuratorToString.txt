@@ -1,4 +1,4 @@
-Configurator: class ru.starovoytov.home.toy.common.libs.configuration.ConfiguratorTest$TestConfigurator
+Configurator: class ru.starovoytov.home.toy.common.libs.configuration.TestConfigurator
 
 ActualValues:
 defaultKey1=finalValue1

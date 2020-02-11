@@ -11,6 +11,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static ru.starovoytov.home.toy.common.libs.configuration.ConfigurationParametersHelper.CONF_SERVICE_ADDRESS;
 import static ru.starovoytov.home.toy.common.libs.configuration.ConfigurationServiceHelper.getValueFromService;
 import static ru.starovoytov.home.toy.test.utils.TestUtils.getFreePort;
 
@@ -20,10 +21,12 @@ import static ru.starovoytov.home.toy.test.utils.TestUtils.getFreePort;
  * @author starovoytov
  * @since 2020.02.11
  */
-@SuppressWarnings({"PMD.AtLeastOneConstructor"})
+@SuppressWarnings({"PMD.AtLeastOneConstructor", "PMD.TooManyStaticImports"})
 class ConfigurationServiceHelperTest {
 	private static UndertowHttpService service;
 	private static final int SERVICE_PORT = getFreePort();
+
+	private static final TestConfigurator CONFIGURATOR = new TestConfigurator();
 
 	/**
 	 * Конфигурация и запуск сервиса
@@ -34,6 +37,7 @@ class ConfigurationServiceHelperTest {
 		descriptors.add(new HttpHandlerDescriptor("conf", new ConfiguratorHandler()));
 		service = new UndertowHttpService(SERVICE_PORT, "localhost", descriptors);
 		service.start();
+		CONFIGURATOR.setFinalParameter(CONF_SERVICE_ADDRESS, "http://localhost:" + SERVICE_PORT + "/conf");
 	}
 
 	/**
@@ -61,6 +65,14 @@ class ConfigurationServiceHelperTest {
 	public void testGetFromConfigurator2() {
 		final String value = getValueFromService("key2", "http://localhost:" + SERVICE_PORT + "/conf");
 		assertEquals("[key2] value", value, "Bad value");
+	}
+
+	/**
+	 * Тест получения значения из конфигуратора
+	 */
+	@Test
+	public void testGetFromConfigurator3() {
+		assertEquals("[DEFAULT] value", CONFIGURATOR.getDefault(), "Bad value from configurator");
 	}
 
 	/**

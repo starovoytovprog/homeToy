@@ -5,6 +5,9 @@ import ru.starovoytov.home.toy.common.libs.exceptions.ResourceException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static ru.starovoytov.home.toy.common.libs.configuration.TestConfigurator.DEFAULT;
+import static ru.starovoytov.home.toy.common.libs.configuration.TestConfigurator.DEFAULT_KEY;
+import static ru.starovoytov.home.toy.common.libs.configuration.TestConfigurator.DEFAULT_VALUE;
 import static ru.starovoytov.home.toy.common.libs.resource.ResourceHelper.getFileContentFromResources;
 import static ru.starovoytov.home.toy.test.utils.TestUtils.setEnv;
 
@@ -14,15 +17,8 @@ import static ru.starovoytov.home.toy.test.utils.TestUtils.setEnv;
  * @author starovoytov
  * @since 2019.12.21
  */
-@SuppressWarnings({"PMD.AtLeastOneConstructor"})
+@SuppressWarnings({"PMD.AtLeastOneConstructor", "PMD.TooManyStaticImports"})
 class ConfiguratorTest {
-	/**
-	 * Ключ тестового параметра
-	 */
-	private static final String DEFAULT = "DEFAULT";
-	private static final String DEFAULT_VALUE = "defaultValue";
-	private static final String DEFAULT_KEY = "defaultKey";
-
 	/**
 	 * Получение числового значения
 	 */
@@ -117,48 +113,5 @@ class ConfiguratorTest {
 		final String resString = configurator.toString()
 			.substring(0, configurator.toString().indexOf("EnvValues:\n") + 10);
 		assertEquals(confString, resString, "Bad configurator string");
-	}
-
-	/**
-	 * Тестовый конфигуратор
-	 */
-	private static class TestConfigurator extends AbstractConfigurator {
-		@Override
-		protected void fillDefaultParameters() {
-			setDefaultParameter(DEFAULT, DEFAULT_VALUE);
-			setDefaultParameter(DEFAULT_KEY + "1", DEFAULT_VALUE + "1");
-			setDefaultParameter(DEFAULT_KEY + "2", DEFAULT_VALUE + "2");
-			setDefaultParameter(DEFAULT_KEY + "3", DEFAULT_VALUE + "3");
-			setDefaultParameter("SQL_PASSWORD", "123456");
-			setDefaultParameter("int", "10");
-		}
-
-		public int getInt() {
-			return getIntParameter("int");
-		}
-
-		public String getNull() {
-			return getStringParameter("null parameter");
-		}
-
-		public String getDefault() {
-			return getStringParameter(DEFAULT);
-		}
-
-		public void setDefault(final String value) {
-			setDefaultParameter(DEFAULT, value);
-		}
-
-		public String getDefault1() {
-			return getStringParameter(DEFAULT_KEY + "1");
-		}
-
-		public String getDefault2() {
-			return getStringParameter(DEFAULT_KEY + "2");
-		}
-
-		public String getDefault3() {
-			return getStringParameter(DEFAULT_KEY + "3");
-		}
 	}
 }
