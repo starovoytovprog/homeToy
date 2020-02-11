@@ -11,21 +11,27 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Тест приложения для тестов SpringBoot {@link Application}
+ * Тест контроллера для получения информации о кэше {@link GetCacheController}
  *
  * @author starovoytov
- * @since 2020.02.01
+ * @since 2020.02.09
  */
 @SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @SuppressWarnings({"PMD.AtLeastOneConstructor"})
-public class ApplicationTest {
+public class GetCacheControllerTest {
 	@Autowired
 	private transient MockMvc mvc;
 
 	@Test
 	@SuppressWarnings({"PMD.LawOfDemeter", "PMD.SignatureDeclareThrowsException", "PMD.JUnitTestsShouldIncludeAssert"})
-	public void helloGradle() throws Exception {
-		mvc.perform(get("/")).andExpect(status().isOk()).andExpect(content().string("Hello Gradle!"));
+	public void badCacheName() throws Exception {
+		mvc.perform(get("/caches/get?name=bad")).andExpect(status().isOk()).andExpect(content().string(""));
+	}
+
+	@Test
+	@SuppressWarnings({"PMD.LawOfDemeter", "PMD.SignatureDeclareThrowsException", "PMD.JUnitTestsShouldIncludeAssert"})
+	public void goodCacheName() throws Exception {
+		mvc.perform(get("/caches/get?name=good")).andExpect(status().isOk()).andExpect(content().string("ok"));
 	}
 }

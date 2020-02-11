@@ -6,6 +6,10 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import static ru.starovoytov.home.toy.common.libs.configuration.ConfigurationParametersHelper.CONF_SERVICE_ADDRESS;
+import static ru.starovoytov.home.toy.common.libs.configuration.ConfigurationServiceHelper.getValueFromService;
+import static ru.starovoytov.home.toy.common.libs.helpers.MapHelper.mapToString;
+
 /**
  * Конфигуратор
  *
@@ -13,12 +17,6 @@ import java.util.Map;
  * @since 2019.12.20
  */
 public abstract class AbstractConfigurator {
-
-	/**
-	 * Ключ, оозначающий параметр-пароль
-	 */
-	private static final String PASSWORD_KEY = "password";
-
 	/**
 	 * Контейнер параметров
 	 */
@@ -31,6 +29,11 @@ public abstract class AbstractConfigurator {
 	 * Контейнер фиксированных параметров
 	 */
 	private final transient Map<String, String> finalParameters;
+	/**
+	 * Контейнер параметров, загруженных из сервиса конфигурации
+	 */
+	@SuppressWarnings({"PMD.LongVariable"})
+	private final transient Map<String, String> configurationServiceParameters;
 
 	/**
 	 * Время инициации конфигуратора
@@ -44,6 +47,7 @@ public abstract class AbstractConfigurator {
 		this.parameters = new HashMap<>();
 		this.defaultParameters = new HashMap<>();
 		this.finalParameters = new HashMap<>();
+		this.configurationServiceParameters = new HashMap<>();
 		fillDefaultParameters();
 	}
 
@@ -78,7 +82,7 @@ public abstract class AbstractConfigurator {
 	 * @param key ключ
 	 * @return значение
 	 */
-	@SuppressWarnings({"PMD.LawOfDemeter"})
+	@SuppressWarnings({"PMD.LawOfDemeter", "PMD.CyclomaticComplexity"})
 	protected String getStringParameter(final String key) {
 		String value = parameters.get(key);
 		if (value == null) {
@@ -91,6 +95,13 @@ public abstract class AbstractConfigurator {
 			value = System.getenv().get(key);
 			if (value != null) {
 				parameters.put(key, value);
+			}
+		}
+		if (value == null && !CONF_SERVICE_ADDRESS.equals(key)) {
+			value = getValueFromService(key, getStringParameter(CONF_SERVICE_ADDRESS));
+			if (value != null) {
+				parameters.put(key, value);
+				configurationServiceParameters.put(key, value);
 			}
 		}
 		if (value == null) {
@@ -135,6 +146,8 @@ public abstract class AbstractConfigurator {
 			.append(mapToString(defaultParameters))
 			.append("\n\nFinalValues:\n")
 			.append(mapToString(finalParameters))
+			.append("\n\nConfigurationServiceParameters:\n")
+			.append(mapToString(configurationServiceParameters))
 			.append("\n\nEnvValues:\n")
 			.append(mapToString(System.getenv()));
 
@@ -148,31 +161,5 @@ public abstract class AbstractConfigurator {
 	 */
 	public String getStartTime() {
 		return START_TIME;
-	}
-
-	/**
-	 * Формирование строки из мапы
-	 *
-	 * @param map мапа
-	 * @return строка
-	 */
-	@SuppressWarnings({"PMD.LawOfDemeter"})
-	private String mapToString(final Map<String, String> map) {
-		final StringBuilder builder = new StringBuilder();
-
-		for (final Map.Entry<String, String> entry : map.entrySet()) {
-			if (!builder.toString().isEmpty()) {
-				builder.append('\n');
-			}
-			builder.append(entry.getKey());
-			builder.append('=');
-			if (entry.getKey().toLowerCase(Locale.getDefault()).contains(PASSWORD_KEY)) {
-				builder.append("***");
-			} else {
-				builder.append(entry.getValue());
-			}
-		}
-
-		return builder.toString();
 	}
 }

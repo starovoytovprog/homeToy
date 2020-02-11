@@ -15,4 +15,14 @@ public class MarkersHelper {
 	 * Маркер обновления кэша
 	 */
 	public static final Marker UPDATE_CACHE = MarkerManager.getMarker("UPDATE_CACHE");
+
+	/**
+	 * Маркер генерирования uid для обращения в конфигуратор
+	 */
+	public static final Marker CONF_SERVICE_GENERATE_UID = MarkerManager.getMarker("CONF_SERVICE_GENERATE_UID");
+
+	/**
+	 * Маркер запросов в сервис
+	 */
+	public static final Marker SERVICE_REQUEST = MarkerManager.getMarker("SERVICE_REQUEST");
 }

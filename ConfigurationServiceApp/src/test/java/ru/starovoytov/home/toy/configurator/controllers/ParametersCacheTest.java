@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Тест кэша параметров
@@ -24,7 +25,7 @@ class ParametersCacheTest {
 	public void testBadFile1() {
 		final Map<String, Object> params = new HashMap<>();
 		final ParametersCache parametersCache = new ParametersCache(0, params);
-		assertEquals(null, parametersCache.getEntity(), "Not null value");
+		assertNull(parametersCache.getEntity(), "Not null value");
 	}
 
 	/**
@@ -35,7 +36,7 @@ class ParametersCacheTest {
 		final Map<String, Object> params = new HashMap<>();
 		params.put(ParametersCache.FILE_NAME, "It's bad file name");
 		final ParametersCache parametersCache = new ParametersCache(0, params);
-		assertEquals(null, parametersCache.getEntity(), "Not null value");
+		assertNull(parametersCache.getEntity(), "Not null value");
 	}
 
 	/**
@@ -64,5 +65,20 @@ class ParametersCacheTest {
 		params.put(ParametersCache.FILE_NAME, ResourceHelper.getFileUrlFromResources("/test.properties"));
 		final ParametersCache parametersCache = new ParametersCache(0, params);
 		assertEquals("value2", parametersCache.getEntity().getProperty("key2"), "Bad value");
+	}
+
+	/**
+	 * Тест отображения
+	 *
+	 * @throws ResourceException ошибка обращения к ресурсу
+	 */
+	@Test
+	@SuppressWarnings({"PMD.LawOfDemeter"})
+	public void testDisplay() throws ResourceException {
+		final Map<String, Object> params = new HashMap<>();
+		params.put(ParametersCache.FILE_NAME, ResourceHelper.getFileUrlFromResources("/test2.properties"));
+		final ParametersCache parametersCache = new ParametersCache(0, params);
+		final StringBuilder stringBuilder = new StringBuilder(30).append("Parameters:\n\nkey1=value1");
+		assertEquals(stringBuilder.toString(), parametersCache.displayEntity(), "Bad display");
 	}
 }
