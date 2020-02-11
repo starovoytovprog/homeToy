@@ -1,3 +1,6 @@
+dependencies {
+	compile 'io.undertow:undertow-core:' + undertowVersion
+}
 jar {
 	archiveBaseName = project.name
 }
