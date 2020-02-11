@@ -36,6 +36,7 @@ class RequestHelperTest {
 	public static void startService() {
 		final List<HttpHandlerDescriptor> descriptors = new ArrayList<>();
 		descriptors.add(new HttpHandlerDescriptor("bad", new BadHandler()));
+		descriptors.add(new HttpHandlerDescriptor("multi", new MultiLineHandler()));
 		service = new UndertowHttpService(SERVICE_PORT, "localhost", descriptors);
 		service.start();
 	}
@@ -61,7 +62,7 @@ class RequestHelperTest {
 	}
 
 	/**
-	 * Тест отправки запроса по несуществующему адресу 2
+	 * Тест отправки запроса сервису, прерывающему соединение
 	 */
 	@Test
 	@SuppressWarnings({"PMD.JUnitTestContainsTooManyAsserts", "PMD.LawOfDemeter"})
@@ -71,12 +72,21 @@ class RequestHelperTest {
 	}
 
 	/**
-	 * Тест отправки запроса по несуществующему адресу
+	 * Тест отправки запроса хендлеру хэлло
 	 */
 	@Test
 	public void helloTest() {
 		final String response = httpEmptyGet("http://localhost:" + SERVICE_PORT + "/hello", TEST_UID);
 		assertEquals("Hello!", response, "Bad hello message");
+	}
+
+	/**
+	 * Тест получение многострочного ответа
+	 */
+	@Test
+	public void multiLineTest() {
+		final String response = httpEmptyGet("http://localhost:" + SERVICE_PORT + "/multi", TEST_UID);
+		assertEquals("Hello!\nIt's multi-line handler.\nAnd next line.", response, "Bad multi-line message");
 	}
 
 	/**
