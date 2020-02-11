@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author starovoytov
  * @since 2020.02.02
  */
-@SpringBootTest(classes = Application.class)
+@SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @SuppressWarnings({"PMD.AtLeastOneConstructor"})
 public class HelloControllerTest {

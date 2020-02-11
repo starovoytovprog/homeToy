@@ -46,7 +46,7 @@ public final class RequestHelper {
 		} catch (HttpClientException | IOException ex) {
 			LOGGER.error(MarkersHelper.SERVICE_REQUEST, () -> CommonLogMessageBuilder.create()
 				.addUri(address)
-				.addMsg("HTTP connection failed")
+				.addMsg("HTTP get connection failed")
 				.addUid(uid)
 				.build(), ex);
 		}

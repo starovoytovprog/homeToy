@@ -22,7 +22,7 @@ import static ru.starovoytov.home.toy.configurator.configuration.ConfigurationPa
  * @author starovoytov
  * @since 2019.12.21
  */
-@SpringBootTest(classes = Application.class)
+@SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @SuppressWarnings({"PMD.AtLeastOneConstructor", "PMD.TooManyStaticImports", "PMD.AvoidPrintStackTrace"})
 public class ApplicationTest {
