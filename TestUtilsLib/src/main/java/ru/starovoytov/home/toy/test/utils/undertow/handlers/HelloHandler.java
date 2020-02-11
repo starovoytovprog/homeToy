@@ -27,7 +27,7 @@ public class HelloHandler implements HttpHandler {
 
 	@Override
 	@SuppressWarnings({"PMD.LawOfDemeter"})
-	public void handleRequest(final HttpServerExchange exchange) throws Exception {
+	public void handleRequest(final HttpServerExchange exchange) {
 		exchange.getResponseSender().send("Hello!");
 	}
 }

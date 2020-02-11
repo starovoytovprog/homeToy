@@ -4,9 +4,11 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import ru.starovoytov.home.toy.common.libs.exceptions.HttpClientException;
+import ru.starovoytov.home.toy.test.utils.undertow.HttpHandlerDescriptor;
 import ru.starovoytov.home.toy.test.utils.undertow.UndertowHttpService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -32,7 +34,9 @@ class RequestHelperTest {
 	 */
 	@BeforeAll
 	public static void startService() {
-		service = new UndertowHttpService(SERVICE_PORT, "localhost", new ArrayList<>());
+		final List<HttpHandlerDescriptor> descriptors = new ArrayList<>();
+		descriptors.add(new HttpHandlerDescriptor("bad", new BadHandler()));
+		service = new UndertowHttpService(SERVICE_PORT, "localhost", descriptors);
 		service.start();
 	}
 
@@ -41,9 +45,29 @@ class RequestHelperTest {
 	 */
 	@Test
 	@SuppressWarnings({"PMD.JUnitTestContainsTooManyAsserts", "PMD.LawOfDemeter"})
-	public void badAddressTest() {
+	public void badAddressTest1() {
 		final Exception exception = assertThrows(HttpClientException.class, () -> sendEmptyGetRequest("bad address", TEST_UID));
 		assertEquals("HTTP connection failed", exception.getMessage(), "Bad exception message");
+	}
+
+	/**
+	 * Тест отправки запроса по несуществующему адресу 2
+	 */
+	@Test
+	@SuppressWarnings({"PMD.JUnitTestContainsTooManyAsserts", "PMD.LawOfDemeter"})
+	public void badAddressTest2() {
+		final String response = httpEmptyGet("bad address", TEST_UID);
+		assertEquals(null, response, "Not null message");
+	}
+
+	/**
+	 * Тест отправки запроса по несуществующему адресу 2
+	 */
+	@Test
+	@SuppressWarnings({"PMD.JUnitTestContainsTooManyAsserts", "PMD.LawOfDemeter"})
+	public void badHandler() {
+		final String response = httpEmptyGet("http://localhost:" + SERVICE_PORT + "/bad", TEST_UID);
+		assertEquals(null, response, "Not null message");
 	}
 
 	/**
