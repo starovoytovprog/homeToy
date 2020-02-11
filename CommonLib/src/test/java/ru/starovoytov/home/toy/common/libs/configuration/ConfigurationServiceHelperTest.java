@@ -21,7 +21,7 @@ import static ru.starovoytov.home.toy.test.utils.TestUtils.getFreePort;
  * @author starovoytov
  * @since 2020.02.11
  */
-@SuppressWarnings({"PMD.AtLeastOneConstructor", "PMD.TooManyStaticImports"})
+@SuppressWarnings({"PMD.AtLeastOneConstructor", "PMD.TooManyStaticImports", "PMD.AvoidDuplicateLiterals"})
 class ConfigurationServiceHelperTest {
 	private static UndertowHttpService service;
 	private static final int SERVICE_PORT = getFreePort();
@@ -56,6 +56,15 @@ class ConfigurationServiceHelperTest {
 	public void testGetFromConfigurator() {
 		final String value = getValueFromService("key", "http://localhost:" + SERVICE_PORT + "/conf");
 		assertEquals("[key] value", value, "Bad value");
+	}
+
+	/**
+	 * Тест получения пустого значения из сервиса
+	 */
+	@Test
+	public void testGetEmptyFromConfigurator() {
+		final String value = getValueFromService("", "http://localhost:" + SERVICE_PORT + "/conf");
+		assertNull(value, "Not null value");
 	}
 
 	/**

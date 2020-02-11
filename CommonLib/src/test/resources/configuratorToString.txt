@@ -3,6 +3,7 @@ Configurator: class ru.starovoytov.home.toy.common.libs.configuration.TestConfig
 ActualValues:
 defaultKey1=finalValue1
 defaultKey2=envKey2
+CONF_SERVICE_ADDRESS=bad
 defaultKey3=defaultValue3
 DEFAULT=defaultValue
 
@@ -16,6 +17,7 @@ int=10
 
 FinalValues:
 defaultKey1=finalValue1
+CONF_SERVICE_ADDRESS=bad
 
 ConfigurationServiceParameters:
 

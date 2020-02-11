@@ -42,7 +42,11 @@ public final class RequestHelper {
 	public static String httpEmptyGet(final String address, final String uid) {
 		String text = null;
 		try (Scanner scanner = new Scanner(sendEmptyGetRequest(address, uid).getInputStream(), StandardCharsets.UTF_8.name())) {
-			text = scanner.useDelimiter("\\A").next();
+			try (Scanner localScanner = scanner.useDelimiter("\\A")) {
+				if (localScanner.hasNext()) {
+					text = localScanner.next();
+				}
+			}
 		} catch (HttpClientException | IOException ex) {
 			LOGGER.error(MarkersHelper.SERVICE_REQUEST, () -> CommonLogMessageBuilder.create()
 				.addUri(address)
@@ -50,7 +54,6 @@ public final class RequestHelper {
 				.addUid(uid)
 				.build(), ex);
 		}
-
 		return text;
 	}
 

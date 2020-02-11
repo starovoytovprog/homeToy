@@ -14,6 +14,9 @@ public class ConfiguratorHandler implements HttpHandler {
 	@Override
 	@SuppressWarnings({"PMD.LawOfDemeter"})
 	public void handleRequest(final HttpServerExchange exchange) {
-		exchange.getResponseSender().send(exchange.getQueryParameters().get("name") + " value");
+		final String name = exchange.getQueryParameters().get("name").element();
+		if (name != null && !name.isEmpty()) {
+			exchange.getResponseSender().send(exchange.getQueryParameters().get("name") + " value");
+		}
 	}
 }
