@@ -5,6 +5,7 @@ import ru.starovoytov.home.toy.common.libs.exceptions.ResourceException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static ru.starovoytov.home.toy.common.libs.configuration.ConfigurationParametersHelper.CONF_SERVICE_ADDRESS;
 import static ru.starovoytov.home.toy.common.libs.configuration.TestConfigurator.DEFAULT;
 import static ru.starovoytov.home.toy.common.libs.configuration.TestConfigurator.DEFAULT_KEY;
 import static ru.starovoytov.home.toy.common.libs.configuration.TestConfigurator.DEFAULT_VALUE;
@@ -104,6 +105,7 @@ class ConfiguratorTest {
 		setEnv(DEFAULT_KEY + "1", "envKey1");
 		setEnv(DEFAULT_KEY + "2", "envKey2");
 		final TestConfigurator configurator = new TestConfigurator();
+		configurator.setFinalParameter(CONF_SERVICE_ADDRESS, "bad");
 		configurator.setFinalParameter("defaultKey1", "finalValue1");
 		configurator.getDefault();
 		configurator.getDefault1();
