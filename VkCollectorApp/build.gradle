@@ -1,0 +1,39 @@
+plugins {
+	id 'application'
+	id 'org.springframework.boot' version '2.0.5.RELEASE'
+}
+mainClassName = 'ru.starovoytov.home.toy.vk.Application'
+dependencies {
+	compile project(':SpringBootServiceLib')
+	testCompile project(':TestUtilsLib')
+	testImplementation 'org.springframework.boot:spring-boot-starter-test:' + springBootVersion
+	components {
+		withModule('org.springframework:spring-beans') {
+			allVariants {
+				withDependencyConstraints {
+					// Need to patch constraints because snakeyaml is an optional dependency
+					it.findAll { it.name == 'snakeyaml' }.each { it.version { strictly '1.19' } }
+				}
+			}
+		}
+	}
+}
+jar {
+	dependsOn(bootJar)
+	archiveBaseName = project.name
+	from {
+		configurations.compile.collect {
+			it.isDirectory() ? it : zipTree(it)
+		}
+		configurations.runtime.collect {
+			it.isDirectory() ? it : zipTree(it)
+		}
+	}
+	exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
+}
+bootJar {
+	manifest {
+		attributes "Implementation-Version": revision.longV
+		attributes "Implementation-Title": project.name
+	}
+}

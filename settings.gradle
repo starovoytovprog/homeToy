@@ -14,3 +14,4 @@ include ':TestUtilsLib'
 include ':SpringBootServiceLib'
 
 include ':ConfigurationServiceApp'
+include ':VkCollectorApp'
