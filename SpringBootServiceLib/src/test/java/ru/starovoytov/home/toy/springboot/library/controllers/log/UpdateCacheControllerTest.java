@@ -9,6 +9,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import ru.starovoytov.home.toy.common.libs.cache.UpdatedCache;
 import ru.starovoytov.home.toy.springboot.library.controllers.AppConfig;
 import ru.starovoytov.home.toy.springboot.library.controllers.Application;
+import ru.starovoytov.home.toy.springboot.library.controllers.UpdateCacheController;
 
 import java.util.Map;
 

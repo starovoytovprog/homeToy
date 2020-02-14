@@ -1,4 +1,4 @@
-package ru.starovoytov.home.toy.springboot.library.controllers.log;
+package ru.starovoytov.home.toy.springboot.library.controllers;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.springframework.beans.factory.annotation.Autowired;
