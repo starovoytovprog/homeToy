@@ -1,5 +1,6 @@
 package ru.starovoytov.home.toy.common.libs.rabbit;
 
+import com.rabbitmq.client.AlreadyClosedException;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.DeliverCallback;
@@ -62,7 +63,7 @@ public abstract class AbstractMessageReceiver implements DeliverCallback, Closea
 			if (connection != null) {
 				connection.close();
 			}
-		} catch (IOException | TimeoutException ex) {
+		} catch (IOException | TimeoutException | AlreadyClosedException ex) {
 			LOGGER.error(RABBIT_MQ, () -> CommonLogMessageBuilder.create()
 				.addMsg("Ошибка при закрытии rabbit")
 				.build(), ex);

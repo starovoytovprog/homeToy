@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -40,9 +42,34 @@ class RabbitMqHelperTest {
 		list.addAll(Arrays.asList("1", "2", "3", "4"));
 		RabbitMqHelper.simpleSendStringMessages(configurator.getRabbitInstanceParameters(), QUEUE_NAME, list);
 
-		assertTrue(callBack.countDownLatch.await(500_000, TimeUnit.MILLISECONDS), "Don't await countDownLatch");
+		assertTrue(callBack.countDownLatch.await(500, TimeUnit.MILLISECONDS), "Don't await countDownLatch");
 		assertTrue(list.containsAll(callBack.messages) && callBack.messages.containsAll(list), "Bad receive message");
 		callBack.close();
+		callBack.close();
+	}
+
+	/**
+	 * Тест ошибки при отправке и получении сообщений
+	 *
+	 * @throws InterruptedException прерывание
+	 * @throws RabbitMqException    ошибка при обращении к rabbit
+	 */
+	@Test
+	@SuppressWarnings(
+		{"PMD.LawOfDemeter", "PMD.CloseResource", "PMD.JUnitTestContainsTooManyAsserts", "PMD.DataflowAnomalyAnalysis"})
+	public void testBadSendAndReceive() throws RabbitMqException, InterruptedException {
+		final TestConfigurator configurator = new TestConfigurator();
+		final TestDeliveryCallBack callBack = new TestDeliveryCallBack();
+		Exception exception = assertThrows(RabbitMqException.class, () -> RabbitMqHelper.simpleReceiveStringMessages(configurator
+			                                                                                                             .getBadRabbitInstanceParameters(), QUEUE_NAME, callBack));
+		assertEquals("Ошибка определения получателя сообщений", exception.getMessage(), "Bad exception message");
+
+		final List<String> list = new ArrayList<>();
+		list.addAll(Arrays.asList("1", "2", "3", "4"));
+		RabbitMqHelper.simpleSendStringMessages(configurator.getRabbitInstanceParameters(), QUEUE_NAME, list);
+
+		exception = assertThrows(RabbitMqException.class, () -> RabbitMqHelper.simpleSendStringMessages(configurator.getBadRabbitInstanceParameters(), QUEUE_NAME, list));
+		assertEquals("Ошибка отправки сообщения", exception.getMessage(), "Bad exception message");
 	}
 
 	/**
@@ -55,6 +82,10 @@ class RabbitMqHelperTest {
 
 		private RabbitMqInstanceParameters getRabbitInstanceParameters() {
 			return new RabbitMqInstanceParameters(getStringParameter("TEST_RABBIT_MQ_HOST"), getStringParameter("TEST_RABBIT_MQ_LOGIN"), getStringParameter("TEST_RABBIT_MQ_PASSWORD"));
+		}
+
+		private RabbitMqInstanceParameters getBadRabbitInstanceParameters() {
+			return new RabbitMqInstanceParameters("bad host", getStringParameter("TEST_RABBIT_MQ_LOGIN"), getStringParameter("TEST_RABBIT_MQ_PASSWORD"));
 		}
 	}
 
