@@ -25,4 +25,9 @@ public class MarkersHelper {
 	 * Маркер запросов в сервис
 	 */
 	public static final Marker SERVICE_REQUEST = MarkerManager.getMarker("SERVICE_REQUEST");
+
+	/**
+	 * Маркер обращения в RabbitMq
+	 */
+	public static final Marker RABBIT_MQ = MarkerManager.getMarker("RABBIT_MQ");
 }
