@@ -45,8 +45,8 @@ class VkTimerTaskTest {
 	@Test
 	@SuppressWarnings({"PMD.JUnitTestContainsTooManyAsserts", "PMD.LawOfDemeter"})
 	public void testOneStep() throws RabbitMqException, InterruptedException {
-		final Map<Integer, Long> map = new ConcurrentHashMap<>();
-		map.put(CONFIGURATOR.getTestOwnerId(), 0L);
+		final Map<Integer, Integer> map = new ConcurrentHashMap<>();
+		map.put(CONFIGURATOR.getTestOwnerId(), 0);
 		final Collector collector = new Collector(map);
 		try (TestDeliveryCallBack callBack = new TestDeliveryCallBack()) {
 			RabbitMqHelper.simpleReceiveStringMessages(CONFIGURATOR.getRabbitInstanceParameters(), QUEUE_NAME, callBack);
@@ -63,8 +63,8 @@ class VkTimerTaskTest {
 	@Test
 	@SuppressWarnings({"PMD.LawOfDemeter"})
 	public void testError() {
-		final Map<Integer, Long> map = new ConcurrentHashMap<>();
-		map.put(CONFIGURATOR.getTestOwnerId(), 0L);
+		final Map<Integer, Integer> map = new ConcurrentHashMap<>();
+		map.put(CONFIGURATOR.getTestOwnerId(), 0);
 		final Collector collector = new Collector(map);
 		final VkTimerTask timerTask = new VkTimerTask(collector, CONFIGURATOR.getBadRabbitInstanceParameters(), QUEUE_NAME);
 		timerTask.run();

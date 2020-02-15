@@ -24,14 +24,14 @@ public class Collector {
 	/**
 	 * Соответствие id стены и времени последней проверки постов
 	 */
-	private final transient Map<Integer, Long> times;
+	private final transient Map<Integer, Integer> times;
 
 	/**
 	 * Конструктор по умолчанию
 	 *
 	 * @param times начальные установки времени проверки постов
 	 */
-	public Collector(final Map<Integer, Long> times) {
+	public Collector(final Map<Integer, Integer> times) {
 		this.times = times;
 	}
 
@@ -57,12 +57,12 @@ public class Collector {
 	 */
 	private List<String> getFromWall(final String stringId) {
 		final Integer wallId = Integer.parseInt(stringId);
-		final long startTime = times.get(wallId) == null ? System.currentTimeMillis() : times.get(wallId);
+		final int startTime = times.get(wallId) == null ? getCurrentTime() : times.get(wallId);
 		final List<String> result = new ArrayList<>();
 
 		try {
 			result.addAll(getLastPostsUrl(wallId, startTime));
-			times.put(wallId, System.currentTimeMillis());
+			times.put(wallId, getCurrentTime());
 		} catch (VkException ex) {
 			LOGGER.error(VK_GET_POST_LIST, () -> VkCollectorLogMessageBuilder.create()
 				.addMsg("Ошибка получения списка постов")
@@ -70,5 +70,14 @@ public class Collector {
 		}
 
 		return result;
+	}
+
+	/**
+	 * Получить текущее время
+	 *
+	 * @return текущее время
+	 */
+	private static int getCurrentTime() {
+		return (int) (System.currentTimeMillis() / 1000);
 	}
 }
