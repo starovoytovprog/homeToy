@@ -6,6 +6,7 @@ import static ru.starovoytov.home.toy.common.libs.configuration.ConfigurationPar
 import static ru.starovoytov.home.toy.common.libs.configuration.ConfigurationParametersHelper.PORT;
 import static ru.starovoytov.home.toy.vk.configuration.ConfigurationParametersHelper.VK_ACCESS_TOKEN;
 import static ru.starovoytov.home.toy.vk.configuration.ConfigurationParametersHelper.VK_USER_ID;
+import static ru.starovoytov.home.toy.vk.configuration.ConfigurationParametersHelper.VK_WALLS_ID;
 
 /**
  * Конфигуратор сервиса
@@ -13,6 +14,7 @@ import static ru.starovoytov.home.toy.vk.configuration.ConfigurationParametersHe
  * @author starovoytov
  * @since 2020.02.12
  */
+@SuppressWarnings({"PMD.TooManyStaticImports"})
 public final class Configurator extends AbstractConfigurator {
 	/**
 	 * Экземпляр конфигуратора
@@ -75,5 +77,9 @@ public final class Configurator extends AbstractConfigurator {
 	 */
 	public String getVkAccessToken() {
 		return getStringParameter(VK_ACCESS_TOKEN);
+	}
+
+	public String getWallsId() {
+		return getStringParameter(VK_WALLS_ID);
 	}
 }
