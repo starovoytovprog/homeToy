@@ -24,9 +24,9 @@ class CollectorTest {
 	@SuppressWarnings({"PMD.LawOfDemeter"})
 	public void testCollect() {
 		final TestConfigurator configurator = new TestConfigurator();
-		final Map<Integer, Long> map = new ConcurrentHashMap<>();
-		map.put(configurator.getTestOwnerId(), 0L);
-		map.put(Integer.MAX_VALUE, 0L);
+		final Map<Integer, Integer> map = new ConcurrentHashMap<>();
+		map.put(configurator.getTestOwnerId(), 0);
+		map.put(Integer.MAX_VALUE, 0);
 		final Collector collector = new Collector(map);
 		final List<String> urlList = collector.getNextUrlList(Integer.MAX_VALUE + ";" + configurator.getTestOwnerId());
 		assertTrue(urlList.contains(configurator.getTestAddress()), "Message not found");

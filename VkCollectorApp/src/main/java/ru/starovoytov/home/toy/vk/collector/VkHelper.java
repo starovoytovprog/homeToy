@@ -48,7 +48,7 @@ public final class VkHelper {
 	 * @throws VkException ошибка получения списка постов
 	 */
 	@SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
-	public static List<String> getLastPostsUrl(final int ownerId, final long startTime) throws VkException {
+	public static List<String> getLastPostsUrl(final int ownerId, final int startTime) throws VkException {
 		final int userId = Configurator.getInstance().getVkUserId();
 		final String accessToken = Configurator.getInstance().getVkAccessToken();
 		final UserActor userActor = new UserActor(userId, accessToken);
