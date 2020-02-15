@@ -1,10 +1,17 @@
 package ru.starovoytov.home.toy.vk.configuration;
 
 import ru.starovoytov.home.toy.common.libs.configuration.AbstractConfigurator;
+import ru.starovoytov.home.toy.common.libs.rabbit.RabbitMqInstanceParameters;
 
 import static ru.starovoytov.home.toy.common.libs.configuration.ConfigurationParametersHelper.HOST;
 import static ru.starovoytov.home.toy.common.libs.configuration.ConfigurationParametersHelper.PORT;
 import static ru.starovoytov.home.toy.vk.configuration.ConfigurationParametersHelper.VK_ACCESS_TOKEN;
+import static ru.starovoytov.home.toy.vk.configuration.ConfigurationParametersHelper.VK_RABBIT_QUEUE_HOST;
+import static ru.starovoytov.home.toy.vk.configuration.ConfigurationParametersHelper.VK_RABBIT_QUEUE_LOGIN;
+import static ru.starovoytov.home.toy.vk.configuration.ConfigurationParametersHelper.VK_RABBIT_QUEUE_NAME;
+import static ru.starovoytov.home.toy.vk.configuration.ConfigurationParametersHelper.VK_RABBIT_QUEUE_PASSWORD;
+import static ru.starovoytov.home.toy.vk.configuration.ConfigurationParametersHelper.VK_RUN_COLLECT;
+import static ru.starovoytov.home.toy.vk.configuration.ConfigurationParametersHelper.VK_UPDATE_INTERVAL;
 import static ru.starovoytov.home.toy.vk.configuration.ConfigurationParametersHelper.VK_USER_ID;
 import static ru.starovoytov.home.toy.vk.configuration.ConfigurationParametersHelper.VK_WALLS_ID;
 
@@ -41,6 +48,8 @@ public final class Configurator extends AbstractConfigurator {
 	protected void fillDefaultParameters() {
 		setDefaultParameter(PORT, "10001");
 		setDefaultParameter(HOST, "localhost");
+		setDefaultParameter(VK_RUN_COLLECT, "false");
+		setDefaultParameter(VK_UPDATE_INTERVAL, "60000");
 	}
 
 	/**
@@ -79,7 +88,48 @@ public final class Configurator extends AbstractConfigurator {
 		return getStringParameter(VK_ACCESS_TOKEN);
 	}
 
+	/**
+	 * Получить список id стен для просмотра
+	 *
+	 * @return список id стен для просмотра
+	 */
 	public String getWallsId() {
 		return getStringParameter(VK_WALLS_ID);
+	}
+
+	/**
+	 * Получить признак сборки
+	 *
+	 * @return признак сборки
+	 */
+	public String getRunCollect() {
+		return getStringParameter(VK_RUN_COLLECT);
+	}
+
+	/**
+	 * Получить имя очереди rabbit
+	 *
+	 * @return имя очереди rabbit
+	 */
+	public String getRabbitQueueName() {
+		return getStringParameter(VK_RABBIT_QUEUE_NAME);
+	}
+
+	/**
+	 * Получиьт параметры подключения к rabbit
+	 *
+	 * @return параметры подключения к rabbit
+	 */
+	public RabbitMqInstanceParameters getRabbitMqInstanceParameters() {
+		return new RabbitMqInstanceParameters(getStringParameter(VK_RABBIT_QUEUE_HOST), getStringParameter(VK_RABBIT_QUEUE_LOGIN), getStringParameter(VK_RABBIT_QUEUE_PASSWORD));
+	}
+
+	/**
+	 * Получить интервал между временем проверки страниц в ВК
+	 *
+	 * @return интервал между временем проверки страниц в ВК
+	 */
+	public long getVkUpdateInterval() {
+		return getIntParameter(VK_UPDATE_INTERVAL);
 	}
 }

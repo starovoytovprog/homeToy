@@ -3,9 +3,12 @@ package ru.starovoytov.home.toy.vk;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import ru.starovoytov.home.toy.vk.collector.Collector;
+import ru.starovoytov.home.toy.vk.collector.VkTimerTask;
 import ru.starovoytov.home.toy.vk.configuration.Configurator;
 
 import java.util.Map;
+import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -25,6 +28,15 @@ public class Application {
 	 */
 	@SuppressWarnings({"PMD.LawOfDemeter"})
 	public static void main(final String[] args) {
+
+		if ("true".equals(Configurator.getInstance().getRunCollect())) {
+			final Collector collector = new Collector(new ConcurrentHashMap<>());
+			final VkTimerTask timerTask = new VkTimerTask(collector, Configurator.getInstance()
+				.getRabbitMqInstanceParameters(), Configurator.getInstance().getRabbitQueueName());
+
+			new Timer().schedule(timerTask, Configurator.getInstance().getVkUpdateInterval());
+		}
+
 		final SpringApplication app = new SpringApplication(Application.class);
 		final Map<String, Object> properties = new ConcurrentHashMap<>();
 		properties.put("server.port", Configurator.getInstance().getPort());
