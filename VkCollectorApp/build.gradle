@@ -4,6 +4,7 @@ plugins {
 }
 mainClassName = 'ru.starovoytov.home.toy.vk.Application'
 dependencies {
+	compile(group: 'com.vk.api', name: 'sdk', version: vkApiVersion)
 	compile project(':SpringBootServiceLib')
 	testCompile project(':TestUtilsLib')
 	testImplementation 'org.springframework.boot:spring-boot-starter-test:' + springBootVersion

@@ -4,6 +4,8 @@ import ru.starovoytov.home.toy.common.libs.configuration.AbstractConfigurator;
 
 import static ru.starovoytov.home.toy.common.libs.configuration.ConfigurationParametersHelper.HOST;
 import static ru.starovoytov.home.toy.common.libs.configuration.ConfigurationParametersHelper.PORT;
+import static ru.starovoytov.home.toy.vk.configuration.ConfigurationParametersHelper.VK_ACCESS_TOKEN;
+import static ru.starovoytov.home.toy.vk.configuration.ConfigurationParametersHelper.VK_USER_ID;
 
 /**
  * Конфигуратор сервиса
@@ -55,5 +57,23 @@ public final class Configurator extends AbstractConfigurator {
 	 */
 	public int getPort() {
 		return getIntParameter(PORT);
+	}
+
+	/**
+	 * Получить id пользователья ВК
+	 *
+	 * @return id пользователья ВК
+	 */
+	public int getVkUserId() {
+		return getIntParameter(VK_USER_ID);
+	}
+
+	/**
+	 * Получить токен доступа в ВК
+	 *
+	 * @return токен доступа в ВК
+	 */
+	public String getVkAccessToken() {
+		return getStringParameter(VK_ACCESS_TOKEN);
 	}
 }
