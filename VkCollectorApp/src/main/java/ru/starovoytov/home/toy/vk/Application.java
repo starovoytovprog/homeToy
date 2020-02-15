@@ -34,7 +34,7 @@ public class Application {
 			final VkTimerTask timerTask = new VkTimerTask(collector, Configurator.getInstance()
 				.getRabbitMqInstanceParameters(), Configurator.getInstance().getRabbitQueueName());
 
-			new Timer().schedule(timerTask, Configurator.getInstance().getVkUpdateInterval());
+			new Timer().schedule(timerTask, 0, Configurator.getInstance().getVkUpdateInterval());
 		}
 
 		final SpringApplication app = new SpringApplication(Application.class);
