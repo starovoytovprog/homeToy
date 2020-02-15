@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import ru.starovoytov.home.toy.common.libs.configuration.AbstractConfigurator;
 import ru.starovoytov.home.toy.vk.exceptions.VkException;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static ru.starovoytov.home.toy.vk.collector.VkHelper.getLastPostsUrl;
 
@@ -25,6 +27,16 @@ class VkHelperTest {
 	public void testReceivePosts() throws VkException {
 		final TestConfigurator configurator = new TestConfigurator();
 		assertTrue(getLastPostsUrl(configurator.getTestOwnerId(), 0).contains(configurator.getTestAddress()), "Message not find");
+	}
+
+	/**
+	 * Тест ошибки
+	 */
+	@Test
+	@SuppressWarnings({"PMD.JUnitTestContainsTooManyAsserts", "PMD.LawOfDemeter"})
+	public void ExceptionTest() {
+		final Exception exception = assertThrows(VkException.class, () -> getLastPostsUrl(Integer.MAX_VALUE, 0));
+		assertEquals("Ошибка получения списка постов", exception.getMessage(), "Bad error message");
 	}
 
 	/**
