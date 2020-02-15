@@ -59,4 +59,13 @@ public class VkTimerTask extends TimerTask {
 				.build(), ex);
 		}
 	}
+
+	/**
+	 * Получить сообщения, не отправленные при последней итерации
+	 *
+	 * @return сообщения, не отправленные при последней итерации
+	 */
+	public List<String> getNotSendList() {
+		return notSendList;
+	}
 }

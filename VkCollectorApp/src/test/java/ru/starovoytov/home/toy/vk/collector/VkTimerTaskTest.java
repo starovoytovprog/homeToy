@@ -58,6 +58,20 @@ class VkTimerTaskTest {
 	}
 
 	/**
+	 * Тест выполнения с ошибкой
+	 */
+	@Test
+	@SuppressWarnings({"PMD.LawOfDemeter"})
+	public void testError() {
+		final Map<Integer, Long> map = new ConcurrentHashMap<>();
+		map.put(CONFIGURATOR.getTestOwnerId(), 0L);
+		final Collector collector = new Collector(map);
+		final VkTimerTask timerTask = new VkTimerTask(collector, CONFIGURATOR.getBadRabbitInstanceParameters(), QUEUE_NAME);
+		timerTask.run();
+		assertTrue(timerTask.getNotSendList().contains(CONFIGURATOR.getTestAddress()), "Not message in list");
+	}
+
+	/**
 	 * Тестовый обработчик сообщений
 	 */
 	private static class TestDeliveryCallBack extends AbstractMessageReceiver {
