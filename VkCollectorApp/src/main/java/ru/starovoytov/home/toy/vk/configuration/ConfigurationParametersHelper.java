@@ -9,4 +9,5 @@ package ru.starovoytov.home.toy.vk.configuration;
 public class ConfigurationParametersHelper {
 	public static final String VK_USER_ID = "VK_USER_ID";
 	public static final String VK_ACCESS_TOKEN = "VK_ACCESS_TOKEN";
+	public static final String VK_WALLS_ID = "VK_WALLS_ID";
 }
