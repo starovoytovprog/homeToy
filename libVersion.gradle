@@ -11,4 +11,5 @@ ext {
 	disruptorVersion = '3.4.2'
 	springBootVersion = '2.2.4.RELEASE'
 	RabbitMqVersion = '5.8.0'
+	vkApiVersion = '0.5.12'
 }
