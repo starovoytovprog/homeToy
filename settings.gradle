@@ -15,3 +15,4 @@ include ':SpringBootServiceLib'
 
 include ':ConfigurationServiceApp'
 include ':VkCollectorApp'
+include ':TelegramSenderApp'
