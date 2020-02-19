@@ -4,6 +4,8 @@ import ru.starovoytov.home.toy.common.libs.configuration.AbstractConfigurator;
 
 import static ru.starovoytov.home.toy.common.libs.configuration.ConfigurationParametersHelper.HOST;
 import static ru.starovoytov.home.toy.common.libs.configuration.ConfigurationParametersHelper.PORT;
+import static ru.starovoytov.home.toy.telegram.configuration.ConfigurationParametersHelper.TELEGRAM_PROXY_HOST;
+import static ru.starovoytov.home.toy.telegram.configuration.ConfigurationParametersHelper.TELEGRAM_PROXY_PORT;
 
 /**
  * Конфигуратор сервиса
@@ -55,5 +57,23 @@ public final class Configurator extends AbstractConfigurator {
 	 */
 	public int getPort() {
 		return getIntParameter(PORT);
+	}
+
+	/**
+	 * Получить хост для прокси телеграма
+	 *
+	 * @return хост для прокси телеграма
+	 */
+	public String getTelegramProxyHost() {
+		return getStringParameter(TELEGRAM_PROXY_HOST);
+	}
+
+	/**
+	 * Получить порт для прокси телеграма
+	 *
+	 * @return порт для прокси телеграма
+	 */
+	public int getTelegramProxyPort() {
+		return getIntParameter(TELEGRAM_PROXY_PORT);
 	}
 }
