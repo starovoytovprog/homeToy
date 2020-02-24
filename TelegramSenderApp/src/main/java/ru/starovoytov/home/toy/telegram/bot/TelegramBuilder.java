@@ -101,6 +101,7 @@ public class TelegramBuilder {
 				.build(), ex);
 			throw new TelegramConnectionException("Can't register bot", ex);
 		}
+		bot.sendMessage("Я снова живой!", Configurator.getInstance().getTelegramBotOwner());
 		final TelegramCallBack callBack = new TelegramCallBack(bot);
 		RabbitMqHelper.simpleReceiveStringMessages(rabbitParameters, rabbitQueueName, callBack);
 	}

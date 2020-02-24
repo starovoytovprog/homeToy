@@ -18,4 +18,5 @@ public class ConfigurationParametersHelper {
 	public static final String TELEGRAM_BOT_NAME = "TELEGRAM_BOT_NAME";
 	public static final String TELEGRAM_BOT_TOKEN = "TELEGRAM_BOT_TOKEN";
 	public static final String TELEGRAM_BOT_START = "TELEGRAM_BOT_START";
+	public static final String TELEGRAM_OWNER_ID = "TELEGRAM_OWNER_ID";
 }
