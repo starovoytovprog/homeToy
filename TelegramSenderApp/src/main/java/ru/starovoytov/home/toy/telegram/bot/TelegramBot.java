@@ -7,6 +7,7 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import ru.starovoytov.home.toy.telegram.configuration.Configurator;
 import ru.starovoytov.home.toy.telegram.log.TelegramLogMessageBuilder;
 
 import static ru.starovoytov.home.toy.telegram.log.MarkersHelper.TELEGRAM_SEND_MESSAGE;
@@ -37,7 +38,21 @@ public class TelegramBot extends TelegramLongPollingBot {
 	}
 
 	@Override
+	@SuppressWarnings({"PMD.LawOfDemeter"})
 	public void onUpdateReceived(final Update update) {
+		if (update.getMessage().getChatId() == Configurator.getInstance().getTelegramBotOwner()) {
+			updateProcess(update);
+		}
+	}
+
+	/**
+	 * Обработка входящих сообщений
+	 *
+	 * @param update входящее сообщение
+	 */
+	@SuppressWarnings({"PMD.LawOfDemeter"})
+	private void updateProcess(final Update update) {
+		sendMessage(update.getMessage().getText(), update.getMessage().getChatId());
 	}
 
 	@Override

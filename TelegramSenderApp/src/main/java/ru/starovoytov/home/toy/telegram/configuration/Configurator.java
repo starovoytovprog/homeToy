@@ -9,6 +9,7 @@ import static ru.starovoytov.home.toy.telegram.configuration.ConfigurationParame
 import static ru.starovoytov.home.toy.telegram.configuration.ConfigurationParametersHelper.TELEGRAM_BOT_START;
 import static ru.starovoytov.home.toy.telegram.configuration.ConfigurationParametersHelper.TELEGRAM_BOT_TOKEN;
 import static ru.starovoytov.home.toy.telegram.configuration.ConfigurationParametersHelper.TELEGRAM_CHAT_ID;
+import static ru.starovoytov.home.toy.telegram.configuration.ConfigurationParametersHelper.TELEGRAM_OWNER_ID;
 import static ru.starovoytov.home.toy.telegram.configuration.ConfigurationParametersHelper.TELEGRAM_PROXY_HOST;
 import static ru.starovoytov.home.toy.telegram.configuration.ConfigurationParametersHelper.TELEGRAM_PROXY_PORT;
 import static ru.starovoytov.home.toy.telegram.configuration.ConfigurationParametersHelper.TELEGRAM_RABBIT_QUEUE_HOST;
@@ -140,5 +141,14 @@ public final class Configurator extends AbstractConfigurator {
 	 */
 	public String getTelegramBotStart() {
 		return getStringParameter(TELEGRAM_BOT_START);
+	}
+
+	/**
+	 * Получить id владельца бота
+	 *
+	 * @return id владельца бота
+	 */
+	public int getTelegramBotOwner() {
+		return getIntParameter(TELEGRAM_OWNER_ID);
 	}
 }
