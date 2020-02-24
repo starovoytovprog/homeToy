@@ -10,4 +10,9 @@ package ru.starovoytov.home.toy.telegram.configuration;
 public class ConfigurationParametersHelper {
 	public static final String TELEGRAM_PROXY_HOST = "TELEGRAM_PROXY_HOST";
 	public static final String TELEGRAM_PROXY_PORT = "TELEGRAM_PROXY_PORT";
+	public static final String TELEGRAM_RABBIT_QUEUE_NAME = "TELEGRAM_RABBIT_QUEUE_NAME";
+	public static final String TELEGRAM_RABBIT_QUEUE_HOST = "TELEGRAM_RABBIT_QUEUE_HOST";
+	public static final String TELEGRAM_RABBIT_QUEUE_LOGIN = "TELEGRAM_RABBIT_QUEUE_LOGIN";
+	public static final String TELEGRAM_RABBIT_QUEUE_PASSWORD = "TELEGRAM_RABBIT_QUEUE_PASSWORD";
+	public static final String TELEGRAM_CHAT_ID = "TELEGRAM_CHAT_ID";
 }
