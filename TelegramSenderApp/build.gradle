@@ -4,6 +4,7 @@ plugins {
 }
 mainClassName = 'ru.starovoytov.home.toy.telegram.Application'
 dependencies {
+	compile(group: 'org.telegram', name: 'telegrambots', version: telegramSdkVersion)
 	compile project(':SpringBootServiceLib')
 	testCompile project(':TestUtilsLib')
 	testImplementation 'org.springframework.boot:spring-boot-starter-test:' + springBootVersion
