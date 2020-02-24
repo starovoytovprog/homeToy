@@ -15,4 +15,7 @@ public class ConfigurationParametersHelper {
 	public static final String TELEGRAM_RABBIT_QUEUE_LOGIN = "TELEGRAM_RABBIT_QUEUE_LOGIN";
 	public static final String TELEGRAM_RABBIT_QUEUE_PASSWORD = "TELEGRAM_RABBIT_QUEUE_PASSWORD";
 	public static final String TELEGRAM_CHAT_ID = "TELEGRAM_CHAT_ID";
+	public static final String TELEGRAM_BOT_NAME = "TELEGRAM_BOT_NAME";
+	public static final String TELEGRAM_BOT_TOKEN = "TELEGRAM_BOT_TOKEN";
+	public static final String TELEGRAM_BOT_START = "TELEGRAM_BOT_START";
 }

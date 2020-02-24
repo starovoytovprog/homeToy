@@ -5,6 +5,9 @@ import ru.starovoytov.home.toy.common.libs.rabbit.RabbitMqInstanceParameters;
 
 import static ru.starovoytov.home.toy.common.libs.configuration.ConfigurationParametersHelper.HOST;
 import static ru.starovoytov.home.toy.common.libs.configuration.ConfigurationParametersHelper.PORT;
+import static ru.starovoytov.home.toy.telegram.configuration.ConfigurationParametersHelper.TELEGRAM_BOT_NAME;
+import static ru.starovoytov.home.toy.telegram.configuration.ConfigurationParametersHelper.TELEGRAM_BOT_START;
+import static ru.starovoytov.home.toy.telegram.configuration.ConfigurationParametersHelper.TELEGRAM_BOT_TOKEN;
 import static ru.starovoytov.home.toy.telegram.configuration.ConfigurationParametersHelper.TELEGRAM_CHAT_ID;
 import static ru.starovoytov.home.toy.telegram.configuration.ConfigurationParametersHelper.TELEGRAM_PROXY_HOST;
 import static ru.starovoytov.home.toy.telegram.configuration.ConfigurationParametersHelper.TELEGRAM_PROXY_PORT;
@@ -46,6 +49,7 @@ public final class Configurator extends AbstractConfigurator {
 	protected void fillDefaultParameters() {
 		setDefaultParameter(PORT, "10002");
 		setDefaultParameter(HOST, "localhost");
+		setDefaultParameter(TELEGRAM_BOT_START, "YES");
 	}
 
 	/**
@@ -109,5 +113,32 @@ public final class Configurator extends AbstractConfigurator {
 	 */
 	public String getTelegramChatId() {
 		return getStringParameter(TELEGRAM_CHAT_ID);
+	}
+
+	/**
+	 * Получить имя бота
+	 *
+	 * @return имя бота
+	 */
+	public String getTelegramBotName() {
+		return getStringParameter(TELEGRAM_BOT_NAME);
+	}
+
+	/**
+	 * Получить токен бота
+	 *
+	 * @return токен бота
+	 */
+	public String getTelegramBotToken() {
+		return getStringParameter(TELEGRAM_BOT_TOKEN);
+	}
+
+	/**
+	 * Получить признак запуска бота
+	 *
+	 * @return признак запуска бота
+	 */
+	public String getTelegramBotStart() {
+		return getStringParameter(TELEGRAM_BOT_START);
 	}
 }
