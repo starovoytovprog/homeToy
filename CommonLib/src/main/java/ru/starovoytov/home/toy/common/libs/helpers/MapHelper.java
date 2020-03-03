@@ -14,7 +14,8 @@ public final class MapHelper {
 	/**
 	 * Ключ, оозначающий параметр-пароль
 	 */
-	private static final String PASSWORD_KEY = "password";
+	private static final String PASSWORD_KEY = "_password";
+	private static final String TOKEN_KEY = "_token";
 
 	/**
 	 * Закрытый конструктор без параметров
@@ -38,7 +39,9 @@ public final class MapHelper {
 			}
 			builder.append(entry.getKey());
 			builder.append('=');
-			if (entry.getKey().toLowerCase(Locale.getDefault()).contains(PASSWORD_KEY)) {
+			if (entry.getKey().toLowerCase(Locale.getDefault()).endsWith(PASSWORD_KEY) || entry.getKey()
+				.toLowerCase(Locale.getDefault())
+				.endsWith(TOKEN_KEY)) {
 				builder.append("***");
 			} else {
 				builder.append(entry.getValue());

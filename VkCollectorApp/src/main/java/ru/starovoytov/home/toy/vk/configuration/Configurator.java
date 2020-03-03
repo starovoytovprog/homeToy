@@ -6,6 +6,7 @@ import ru.starovoytov.home.toy.common.libs.rabbit.RabbitMqInstanceParameters;
 import static ru.starovoytov.home.toy.common.libs.configuration.ConfigurationParametersHelper.HOST;
 import static ru.starovoytov.home.toy.common.libs.configuration.ConfigurationParametersHelper.PORT;
 import static ru.starovoytov.home.toy.vk.configuration.ConfigurationParametersHelper.VK_ACCESS_TOKEN;
+import static ru.starovoytov.home.toy.vk.configuration.ConfigurationParametersHelper.VK_GET_INTERVAL;
 import static ru.starovoytov.home.toy.vk.configuration.ConfigurationParametersHelper.VK_RABBIT_QUEUE_HOST;
 import static ru.starovoytov.home.toy.vk.configuration.ConfigurationParametersHelper.VK_RABBIT_QUEUE_LOGIN;
 import static ru.starovoytov.home.toy.vk.configuration.ConfigurationParametersHelper.VK_RABBIT_QUEUE_NAME;
@@ -50,6 +51,7 @@ public final class Configurator extends AbstractConfigurator {
 		setDefaultParameter(HOST, "localhost");
 		setDefaultParameter(VK_RUN_COLLECT, "false");
 		setDefaultParameter(VK_UPDATE_INTERVAL, "60000");
+		setDefaultParameter(VK_GET_INTERVAL, "1000");
 	}
 
 	/**
@@ -131,5 +133,14 @@ public final class Configurator extends AbstractConfigurator {
 	 */
 	public long getVkUpdateInterval() {
 		return getIntParameter(VK_UPDATE_INTERVAL);
+	}
+
+	/**
+	 * Получить интервал между запросами страниц в ВК
+	 *
+	 * @return интервал между запросами страниц в ВК
+	 */
+	public long getVkGetInterval() {
+		return getIntParameter(VK_GET_INTERVAL);
 	}
 }

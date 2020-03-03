@@ -72,15 +72,20 @@ public class TelegramBot extends TelegramLongPollingBot {
 	 * @param chatId  id чата
 	 */
 	public void sendMessage(final String message, final long chatId) {
-		try {
-			final SendMessage sendMessageObject = new SendMessage();
-			sendMessageObject.setText(message);
-			sendMessageObject.setChatId(chatId);
-			sendApiMethod(sendMessageObject);
-		} catch (TelegramApiException ex) {
-			LOGGER.error(TELEGRAM_SEND_MESSAGE, () -> TelegramLogMessageBuilder.create()
-				.addMsg("Ошибка оправки сообщения")
-				.build(), ex);
+		final SendMessage sendMessageObject = new SendMessage();
+		sendMessageObject.setText(message);
+		sendMessageObject.setChatId(chatId);
+
+		boolean isSend = false;
+		while (!isSend) {
+			try {
+				sendApiMethod(sendMessageObject);
+				isSend = true;
+			} catch (TelegramApiException ex) {
+				LOGGER.error(TELEGRAM_SEND_MESSAGE, () -> TelegramLogMessageBuilder.create()
+					.addMsg("Ошибка оправки сообщения")
+					.build(), ex);
+			}
 		}
 	}
 }
