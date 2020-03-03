@@ -2,6 +2,7 @@ package ru.starovoytov.home.toy.vk.collector;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.starovoytov.home.toy.vk.configuration.Configurator;
 import ru.starovoytov.home.toy.vk.exceptions.VkException;
 import ru.starovoytov.home.toy.vk.log.VkCollectorLogMessageBuilder;
 
@@ -45,6 +46,7 @@ public class Collector {
 		final List<String> resultList = new ArrayList<>();
 		for (final String id : idList.split(";")) {
 			resultList.addAll(getFromWall(id));
+			delay();
 		}
 		return resultList;
 	}
@@ -61,9 +63,10 @@ public class Collector {
 		final List<String> result = new ArrayList<>();
 
 		try {
-			result.addAll(getLastPostsUrl(wallId, startTime));
 			times.put(wallId, getCurrentTime());
+			result.addAll(getLastPostsUrl(wallId, startTime));
 		} catch (VkException ex) {
+			times.put(wallId, startTime);
 			LOGGER.error(VK_GET_POST_LIST, () -> VkCollectorLogMessageBuilder.create()
 				.addMsg("Ошибка получения списка постов")
 				.build(), ex);
@@ -79,5 +82,19 @@ public class Collector {
 	 */
 	private static int getCurrentTime() {
 		return (int) (System.currentTimeMillis() / 1000);
+	}
+
+	/**
+	 * Ожидание между запросами в группы
+	 */
+	@SuppressWarnings({"PMD.LawOfDemeter"})
+	private void delay() {
+		try {
+			Thread.sleep(Configurator.getInstance().getVkGetInterval());
+		} catch (InterruptedException ex) {
+			LOGGER.error(VK_GET_POST_LIST, () -> VkCollectorLogMessageBuilder.create()
+				.addMsg("Ошибка получения списка постов")
+				.build(), ex);
+		}
 	}
 }

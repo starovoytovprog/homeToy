@@ -17,4 +17,5 @@ public class ConfigurationParametersHelper {
 	public static final String VK_RABBIT_QUEUE_LOGIN = "VK_RABBIT_QUEUE_LOGIN";
 	public static final String VK_RABBIT_QUEUE_PASSWORD = "VK_RABBIT_QUEUE_PASSWORD";
 	public static final String VK_UPDATE_INTERVAL = "VK_UPDATE_INTERVAL";
+	public static final String VK_GET_INTERVAL = "VK_GET_INTERVAL";
 }
